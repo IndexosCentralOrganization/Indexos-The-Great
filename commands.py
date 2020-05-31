@@ -1,5 +1,6 @@
 import discord
 import validators as val
+import DB.manageDB as mdb
 from discord.ext import commands
 from discord.ext.commands import bot
 
@@ -30,6 +31,7 @@ class BaseCommands(commands.Cog):
                     msg += " "+tag3
             else:
                 msg = "Lien ajouté sans tag"
+                mdb.addLink(link, tag1, tag2, tag3)
         else:
             msg = "Le lien n'est pas conforme"
 
