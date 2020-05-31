@@ -31,7 +31,7 @@ class BaseCommands(commands.Cog):
                     msg += " "+tag3
             else:
                 msg = "Lien ajouté sans tag"
-                mdb.addLink(link, tag1, tag2, tag3)
+            mdb.addLink(link, tag1, tag2, tag3)
         else:
             msg = "Le lien n'est pas conforme"
 

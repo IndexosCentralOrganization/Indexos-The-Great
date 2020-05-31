@@ -24,15 +24,18 @@ def addLink(link, tag1=None, tag2=None, tag3=None):
     """
     cursor = conn.cursor()
 
-    if tag1:
-        cursor.execute("INSERT INTO link (`URL`,`tag1`) VALUES (?, ?)", (link, tag1))
+    if tag3:
+        cursor.execute("INSERT INTO link (URL,tag1, tag2, tag3) VALUES (?, ?, ?, ?)", (link, tag1, tag2, tag3))
 
     elif tag2:
-        cursor.execute("INSERT INTO link (`URL`,`tag1`, `tag2`) VALUES (?, ?, ?)", (link, tag1, tag2))
+        cursor.execute("INSERT INTO link (URL,tag1, tag2) VALUES (?, ?, ?)", (link, tag1, tag2))
 
-    elif tag3:
-        cursor.execute("INSERT INTO link (`URL`,`tag1`, `tag2`, `tag3`) VALUES (?, ?, ?, ?)", (link, tag1, tag2, tag3))
+    elif tag1:
+        cursor.execute("INSERT INTO link (URL,tag1) VALUES (?, ?)", (link, tag1))
 
     else:
-        cursor.execute("INSERT INTO link (`URL`) VALUES (?)", link)
+        cursor.execute("INSERT INTO link (URL) VALUES (?)", link)
     conn.commit()
+
+
+# conn.close()
