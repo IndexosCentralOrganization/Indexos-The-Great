@@ -1,4 +1,5 @@
 import discord
+import DB.manageDB as mdb
 from discord.ext import commands
 from discord.ext.commands import Bot
 
@@ -17,6 +18,10 @@ NONE = open("help/help.txt", "w")
 async def on_ready():
     print('Connecté avec le nom : {0.user}'.format(client))
     print('PREFIX = '+str(PREFIX))
+    if mdb.initDB():
+        print("DB Valide")
+    else:
+        print("DB invalide")
     print("Indexos is ready for index stuff !")
 
 client.load_extension('commands')
