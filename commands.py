@@ -19,6 +19,9 @@ class BaseCommands(commands.Cog):
         tag1/2/3 -> Les trois tags
         """
         msg = ""
+        authID = ctx.author.id
+        chanName = ctx.channel.name
+
         if val.url(link):
             # Cas où ça marche
             if tag1 is not None or tag2 is not None or tag3 is not None:
@@ -31,7 +34,7 @@ class BaseCommands(commands.Cog):
                     msg += " "+tag3
             else:
                 msg = "Lien ajouté sans tag"
-            mdb.addLink(link, tag1, tag2, tag3)
+            mdb.addLink(link, authID, chanName, tag1, tag2, tag3)
         else:
             msg = "Le lien n'est pas conforme"
 

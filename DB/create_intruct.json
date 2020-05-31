@@ -1,4 +1,4 @@
 {
   "link":
-  "CREATE TABLE IF NOT EXISTS \"link\" (\"URL\" TEXT,\"tag1\" TEXT,\"tag2\" TEXT,\"tag3\" TEXT,PRIMARY KEY(\"URL\"))"
+  "CREATE TABLE IF NOT EXISTS \"link\" (\"URL\" TEXT, \"authID\" INT,\"chanName\" TEXT,\"tag1\" TEXT,\"tag2\" TEXT,\"tag3\" TEXT,PRIMARY KEY(\"URL\"))"
 }
