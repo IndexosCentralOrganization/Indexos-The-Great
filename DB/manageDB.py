@@ -38,4 +38,27 @@ def addLink(link,authID, chanName, tag1=None, tag2=None, tag3=None):
     conn.commit()
 
 
+def deleteLink(link, authID):
+    """
+    Supprime le lien qui correspond a link si les authID sont égal
+    """
+    cursor = conn.cursor()
+    print(link)
+    print(authID)
+    cursor.execute("SELECT authID FROM link where URL == ?", (link,))
+    authfdb = cursor.fetchone()
+    print(authfdb)
+    if authfdb is not None:
+        if int(authID) == int(authfdb[0]):
+            cursor.execute("DELETE FROM link WHERE URL == ?", (link,))
+            conn.commit()
+
+            return True
+        else:
+            return False
+    else:
+        return False
+
+def searchID():
+    pass
 # conn.close()

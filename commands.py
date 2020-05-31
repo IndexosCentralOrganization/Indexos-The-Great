@@ -40,6 +40,14 @@ class BaseCommands(commands.Cog):
 
         await ctx.channel.send(msg)
 
+    @commands.command(pass_context=True)
+    async def Ldel(self, ctx, link):
+        if mdb.deleteLink(link, ctx.author.id):
+            await ctx.channel.send("Lien supprimé")
+        else:
+            await ctx.channel.send("Le lien n'a pas pu être supprimé")
+
+
 
 def setup(bot):
     bot.add_cog(BaseCommands(bot))
