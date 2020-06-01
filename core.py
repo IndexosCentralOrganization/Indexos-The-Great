@@ -31,4 +31,4 @@ client.load_extension('commands')
 try:
     client.run(TOKEN)
 except (KeyboardInterrupt, SystemExit):
-    pass
+    quit()
