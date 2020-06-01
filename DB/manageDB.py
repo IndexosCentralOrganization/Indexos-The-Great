@@ -66,8 +66,11 @@ def searchByTag(tag):
     return cursor.fetchall()
 
 
-
-
-def searchByChan():
-    pass
+def searchByChan(chanName):
+    """
+    Recherche des liens en fonction du nom du channel
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT URL FROM link WHERE chanName == ?", (chanName,))
+    return cursor.fetchall()
 # conn.close()
