@@ -15,7 +15,7 @@ def initDB():
     return True
 
 
-def addLink(link,authID, chanName, tag1=None, tag2=None, tag3=None):
+def addLink(link, authID, chanName, tag1=None, tag2=None, tag3=None):
     """
     link -> string
     tag1 -> string
@@ -43,11 +43,8 @@ def deleteLink(link, authID):
     Supprime le lien qui correspond a link si les authID sont égal
     """
     cursor = conn.cursor()
-    print(link)
-    print(authID)
     cursor.execute("SELECT authID FROM link where URL == ?", (link,))
     authfdb = cursor.fetchone()
-    print(authfdb)
     if authfdb is not None:
         if int(authID) == int(authfdb[0]):
             cursor.execute("DELETE FROM link WHERE URL == ?", (link,))
@@ -59,6 +56,18 @@ def deleteLink(link, authID):
     else:
         return False
 
-def searchID():
+
+def searchByTag(tag):
+    """
+    Recherche des liens en fonction d'un tag
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT URL FROM link WHERE tag1 == ? OR tag2 == ? OR tag3 == ?", (tag, tag, tag))
+    return cursor.fetchall()
+
+
+
+
+def searchByChan():
     pass
 # conn.close()

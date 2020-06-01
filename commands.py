@@ -47,6 +47,17 @@ class BaseCommands(commands.Cog):
         else:
             await ctx.channel.send("Le lien n'a pas pu être supprimé")
 
+    @commands.command(pass_context=True)
+    async def Lsearch(self, ctx, tag):
+        reslist = list()
+        reslist = mdb.searchByTag(tag)
+        if reslist:
+            str = "Liens correspondants à votre recherche :\n"
+            for elem in reslist:
+                str += "  **>** "+elem[0]+" \n"
+        else:
+            str = "Aucun lien ne correspond à votre recherche"
+        await ctx.channel.send(str)
 
 
 def setup(bot):
