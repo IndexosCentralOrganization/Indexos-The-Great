@@ -27,10 +27,13 @@ class BaseCommands(commands.Cog):
             if tag1 is not None or tag2 is not None or tag3 is not None:
                 msg = "Lien ajoute avec les tags :"
                 if(tag1):
+                    tag1 = tag1.lower()
                     msg += " "+tag1
                 if(tag2):
+                    tag2 = tag2.lower()
                     msg += " "+tag2
                 if(tag3):
+                    tag3 = tag3.lower()
                     msg += " "+tag3
             else:
                 msg = "Lien ajoute sans tag"
@@ -49,6 +52,7 @@ class BaseCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def Lsearch(self, ctx, tag):
+        tag = tag.lower()
         reslist = list(set(mdb.searchByTag(tag)) | set(mdb.searchByChan(tag)))
         print(reslist)
         if reslist:
