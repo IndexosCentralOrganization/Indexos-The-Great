@@ -18,6 +18,8 @@ NONE = open("help/help.txt", "w")
 async def on_ready():
     print('Connecté avec le nom : {0.user}'.format(client))
     print('PREFIX = '+str(PREFIX))
+    activity = discord.Activity(type=discord.ActivityType.playing, name="Prefix = {0}".format(PREFIX))
+    await client.change_presence(status=discord.Status.online, activity=activity)
     if mdb.initDB():
         print("DB Valide")
     else:
