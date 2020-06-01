@@ -13,7 +13,7 @@ client = commands.Bot(command_prefix="{0}".format(PREFIX))
 NONE = open("help/cogs.txt", "w")
 NONE = open("help/help.txt", "w")
 
-# Au démarrage du Bot.
+# Au demarrage du Bot.
 @client.event
 async def on_ready():
     print('Connecté avec le nom : {0.user}'.format(client))

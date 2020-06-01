@@ -25,7 +25,7 @@ class BaseCommands(commands.Cog):
         if val.url(link):
             # Cas où ça marche
             if tag1 is not None or tag2 is not None or tag3 is not None:
-                msg = "Lien ajouté avec les tags :"
+                msg = "Lien ajoute avec les tags :"
                 if(tag1):
                     msg += " "+tag1
                 if(tag2):
@@ -33,7 +33,7 @@ class BaseCommands(commands.Cog):
                 if(tag3):
                     msg += " "+tag3
             else:
-                msg = "Lien ajouté sans tag"
+                msg = "Lien ajoute sans tag"
             mdb.addLink(link, authID, chanName, tag1, tag2, tag3)
         else:
             msg = "Le lien n'est pas conforme"
@@ -43,9 +43,9 @@ class BaseCommands(commands.Cog):
     @commands.command(pass_context=True)
     async def Ldel(self, ctx, link):
         if mdb.deleteLink(link, ctx.author.id):
-            await ctx.channel.send("Lien supprimé")
+            await ctx.channel.send("Lien supprime")
         else:
-            await ctx.channel.send("Le lien n'a pas pu être supprimé")
+            await ctx.channel.send("Le lien n'a pas pu être supprime")
 
     @commands.command(pass_context=True)
     async def Lsearch(self, ctx, tag):
