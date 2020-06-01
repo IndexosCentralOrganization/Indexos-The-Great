@@ -49,8 +49,8 @@ class BaseCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def Lsearch(self, ctx, tag):
-        reslist = list()
-        reslist = mdb.searchByTag(tag)
+        reslist = list(set(mdb.searchByTag(tag)) | set(mdb.searchByChan(tag)))
+        print(reslist)
         if reslist:
             str = "Liens correspondants à votre recherche :\n"
             for elem in reslist:
