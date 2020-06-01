@@ -59,6 +59,10 @@ class BaseCommands(commands.Cog):
             str = "Aucun lien ne correspond à votre recherche"
         await ctx.channel.send(str)
 
+    @commands.command(pass_context=True)
+    async def github(self, ctx):
+        await ctx.channel.send("https://github.com/gnouf1/Indexos-The-Great")
+
 
 def setup(bot):
     bot.add_cog(BaseCommands(bot))
