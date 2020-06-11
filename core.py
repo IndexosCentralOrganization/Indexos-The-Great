@@ -28,7 +28,7 @@ async def on_ready():
     print("Indexos is ready for index stuff !")
 
 client.load_extension('commands')
-client.load_extension('Helpme')
+client.load_extension('help')
 
 try:
     client.run(TOKEN)
