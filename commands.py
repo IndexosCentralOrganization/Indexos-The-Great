@@ -67,6 +67,47 @@ class BaseCommands(commands.Cog):
     async def github(self, ctx):
         await ctx.channel.send("https://github.com/gnouf1/Indexos-The-Great")
 
+    @commands.command(pass_context=True)
+    async def toptag(self, ctx, nb=10):
+        msg = "**Les {} tags les plus utilisés sont :**\n".format(str(nb))
+        tag1List = mdb.occurenceInField("tag1")
+        tag2List = mdb.occurenceInField("tag2")
+        tag3List = mdb.occurenceInField("tag3")
+
+        res = dict()
+
+    # Va ecrire dans res l'ensemble des tags et l'ensemble de leur occurences
+        for item in tag1List:
+            try:
+                res[item[0]] += item[1]
+            except KeyError:
+                res[item[0]] = item[1]
+
+        for item in tag2List:
+            try:
+                res[item[0]] += item[1]
+            except KeyError:
+                res[item[0]] = item[1]
+
+        for item in tag3List:
+            try:
+                res[item[0]] += item[1]
+            except KeyError:
+                res[item[0]] = item[1]
+
+        del(res[None])
+        # Reverse car il classe en croissant.
+        # res devient une liste
+        res = sorted(res.items(), key=lambda x: x[1], reverse=True)
+
+        for i in range(0, nb):
+            msg += "**{}.** {} ({})\n".format(str(i+1), res[i][0], res[i][1])
+
+        await ctx.channel.send(msg)
+
+
+
+
 
 def setup(bot):
     bot.add_cog(BaseCommands(bot))

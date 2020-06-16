@@ -73,4 +73,16 @@ def searchByChan(chanName):
     cursor = conn.cursor()
     cursor.execute("SELECT URL FROM link WHERE chanName == ?", (chanName,))
     return cursor.fetchall()
+
+def occurenceInField(field):
+    """
+    Permet de savoir combien d'occrence il existe pour un champ
+    """
+    req = "SELECT {}, count(*) FROM link GROUP BY {};".format(field, field)
+    cursor = conn.cursor()
+    cursor.execute(req)
+    res = cursor.fetchall()
+    return res
+
+
 # conn.close()
