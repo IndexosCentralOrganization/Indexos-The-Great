@@ -37,7 +37,10 @@ class BaseCommands(commands.Cog):
                     msg += " "+tag3
             else:
                 msg = "Lien ajoute sans tag"
-            mdb.addLink(link, authID, chanName, tag1, tag2, tag3)
+            try:
+                mdb.addLink(link, authID, chanName, tag1, tag2, tag3)
+            except:
+                msg = "Le lien existe déjà dans la base de donnée ou une erreur a eu lieu."
         else:
             msg = "Le lien n'est pas conforme"
 
@@ -96,6 +99,9 @@ class BaseCommands(commands.Cog):
                 res[item[0]] = item[1]
 
         del(res[None])
+
+        if nb > len(res):
+            nb = len(res)
         # Reverse car il classe en croissant.
         # res devient une liste
         res = sorted(res.items(), key=lambda x: x[1], reverse=True)
