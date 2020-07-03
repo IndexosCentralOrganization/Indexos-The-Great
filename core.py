@@ -23,7 +23,7 @@ NONE = open("help/help.txt", "w")
 client.remove_command("help")
 
 async def backup():
-    channel = client.get_channel(589942497678196764)  # ID du chan "backup"
+    channel = client.get_channel(728749737968271500)  # ID du chan "backup"
     await channel.send("Backup du {}".format(DATE))
     fp = mdb.dumpAllDB()
     fileD = discord.File(fp, "backup{}.sql".format(DATE))
