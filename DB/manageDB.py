@@ -74,6 +74,7 @@ def searchByChan(chanName):
     cursor.execute("SELECT URL FROM link WHERE chanName == ?", (chanName,))
     return cursor.fetchall()
 
+
 def occurenceInField(field):
     """
     Permet de savoir combien d'occrence il existe pour un champ
@@ -84,5 +85,28 @@ def occurenceInField(field):
     res = cursor.fetchall()
     return res
 
+
+def dumpAllDB():
+    """
+    Dump toute la base de donnée dans dump.sql
+    """
+    name = 'dump.sql'
+    with open(name, 'w') as f:
+        for line in conn.iterdump():
+            f.write('%s\n' % line)
+    return name
+
+
+def changetags(old, new):
+    """
+    Change les tags == old avec new
+    """
+    tags = ["tag1", "tag2", "tag3"]
+
+    for tag_name in tags:
+        req = "UPDATE link SET {} = ? WHERE {} = ?".format(tag_name, tag_name)
+        cursor = conn.cursor()
+        print(req)
+        cursor.execute(req, (new, old))
 
 # conn.close()
