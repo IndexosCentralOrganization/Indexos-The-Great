@@ -44,7 +44,7 @@ async def on_ready():
         print("DB invalide")
 
     scheduler = AsyncIOScheduler()
-    scheduler.add_job(backup, 'interval', hour=24)
+    scheduler.add_job(backup, 'interval', hours=24)
     scheduler.start()
     print("Indexos is ready for index stuff !")
 
