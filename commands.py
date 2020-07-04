@@ -28,16 +28,25 @@ class BaseCommands(commands.Cog):
             if tag1 is not None or tag2 is not None or tag3 is not None:
                 msg = "Lien ajoute avec les tags :"
                 if(tag1):
+                    tag_tmp = mdb.synonymeConvert(tag1)
+                    if tag_tmp != -1:
+                        tag1 = tag_tmp[0][0]
                     tag1 = tag1.lower()
                     msg += " "+tag1
                 if(tag2):
+                    tag_tmp = mdb.synonymeConvert(tag2)
+                    if tag_tmp != -1:
+                        tag2 = tag_tmp[0][0]
                     tag2 = tag2.lower()
                     msg += " "+tag2
                 if(tag3):
+                    tag_tmp = mdb.synonymeConvert(tag3)
+                    if tag_tmp != -1:
+                        tag3 = tag_tmp[0][0]
                     tag3 = tag3.lower()
                     msg += " "+tag3
             else:
-                msg = "Lien ajoute sans tag"
+                msg = "Lien ajouté sans tag"
             try:
                 mdb.addLink(link, authID, chanName, tag1, tag2, tag3)
             except:
@@ -135,9 +144,11 @@ class BaseCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def merge(self, ctx, old, new):
+        authID = ctx.author.id
         if len(mdb.searchByTag(old)) != 0 and len(mdb.searchByTag(new)) != 0:
             mdb.changetags(old, new)
             await ctx.channel.send("Les tags *{}* ont été fusionné avec *{}*".format(old, new))
+            mdb.createSynonyme(authID, old, new)
         else:
             await ctx.channel.send("Les tags que vous essayez de fusionner n'existe pas.")
 

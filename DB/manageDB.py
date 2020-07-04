@@ -109,4 +109,25 @@ def changetags(old, new):
         print(req)
         cursor.execute(req, (new, old))
 
+
+def createSynonyme(authID, old, new):
+    """
+    Permet de créer un nouveau synonyme dans la table du même nom
+    """
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO synonyme (authID, old, new) VALUES (?, ?, ?)", (authID, old, new))
+    conn.commit()
+
+def synonymeConvert(old):
+    """
+    Permet de récupérer le synonyme de old dans la table "synonyme", si aucun existe il renvoit -1
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT new FROM synonyme WHERE old = ?", (old,))
+    res = cursor.fetchall()
+    if res != []:
+        return res
+    else:
+        return -1
+
 # conn.close()
