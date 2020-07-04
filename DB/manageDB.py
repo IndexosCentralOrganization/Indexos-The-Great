@@ -57,6 +57,24 @@ def deleteLink(link, authID):
         return False
 
 
+def deleteSyn(oldSyn, authID):
+    """
+    Supprime le synonyme qui correspond a old si les authID sont égal
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT authID FROM synonyme where old == ?", (oldSyn,))
+    authfdb = cursor.fetchone()
+    if authfdb is not None:
+        if int(authID) == int(authfdb[0]):
+            cursor.execute("DELETE FROM synonyme WHERE old == ?", (oldSyn,))
+            conn.commit()
+
+            return True
+        else:
+            return False
+    else:
+        return False
+
 def searchByTag(tag):
     """
     Recherche des liens en fonction d'un tag
@@ -118,6 +136,7 @@ def createSynonyme(authID, old, new):
     cursor.execute("INSERT INTO synonyme (authID, old, new) VALUES (?, ?, ?)", (authID, old, new))
     conn.commit()
 
+
 def synonymeConvert(old):
     """
     Permet de récupérer le synonyme de old dans la table "synonyme", si aucun existe il renvoit -1
@@ -129,5 +148,18 @@ def synonymeConvert(old):
         return res
     else:
         return -1
+
+
+def allSynonyme():
+    """
+    Permet de récupérer tous les synonymes
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM synonyme")
+    res = cursor.fetchall()
+    return res
+
+
+
 
 # conn.close()

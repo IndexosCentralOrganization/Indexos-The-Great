@@ -1,0 +1,25 @@
+***Commandes disponibles :***
+
+**Ladd :** `Ladd LIEN optTAG1 OPTtag2 OPTtag3`
+ Permet d'ajouter un lien avec 0, 1, 2 ou 3 tags. Si un des des tags est figure à gauche dans la table synonyme alors il sera remplacé automatiquement.
+
+**Ldel :** `Ldel LIEN`
+ Permet de supprimer un lien SI ON EST L'AUTEUR DE SON AJOUT.
+
+**Lsearch :** `Lsearch ITEM`
+ Permet de rechercher un lien dont soit un des tags est ITEM ou dont le salon d'origine a pour nom ITEM.
+
+**toptag :** `toptag OPTx`
+ Affiche les x tags les plus utilisés, 10 par défaut. Si vous cherchez au dela de 10 la réponse sera envoyée par MP
+
+**DBdump :** `DBdump`
+ Envoie en MP le fichier dump de la base de donnée
+
+**merge :** `merge tag1 tag2`
+ Fusionne tous les tag1 avec les les tag2, ajoute une ligne à la table des synonymes sous la forme `tag1 -> tag2`
+
+ **syndel :** `syndel old`
+ Supprime le synonyme avec old à gauche.
+
+ **synlist :** `synlist`
+ Affiche la liste des synonymes

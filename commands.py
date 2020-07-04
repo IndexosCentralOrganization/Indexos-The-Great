@@ -65,6 +65,15 @@ class BaseCommands(commands.Cog):
             await ctx.channel.send("Le lien n'a pas pu être supprimé")
 
     @commands.command(pass_context=True)
+    async def syndel(self, ctx, oldSyn):
+        if mdb.deleteSyn(oldSyn, ctx.author.id):
+            await ctx.channel.send("Synonyme supprimé")
+            await ctx.message.delete()
+        else:
+            await ctx.channel.send("Le synonyme n'a pas pu être supprimé")
+
+
+    @commands.command(pass_context=True)
     async def Lsearch(self, ctx, tag):
         tag = tag.lower()
         reslist = list(set(mdb.searchByTag(tag)) | set(mdb.searchByChan(tag)))
@@ -151,6 +160,24 @@ class BaseCommands(commands.Cog):
             mdb.createSynonyme(authID, old, new)
         else:
             await ctx.channel.send("Les tags que vous essayez de fusionner n'existe pas.")
+
+
+    @commands.command(pass_context=True)
+    async def listsyn(self, ctx):
+        liste = mdb.allSynonyme()
+        msg = ""
+        i = 0
+        if liste:
+            msg = "**Les synonymes suivant sont enregistrés :** \n"
+            for elem in liste:
+                i += 1
+                msg += "    *{0}* -> {1} \n".format(elem[1], elem[2])
+                if i % 50 == 0 and i != 0:
+                    await ctx.channel.send(msg)
+                    msg = ""
+        else:
+            msg = "Rien à afficher"
+        await ctx.channel.send(msg)
 
 def setup(bot):
     bot.add_cog(BaseCommands(bot))
