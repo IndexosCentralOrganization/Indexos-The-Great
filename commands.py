@@ -163,7 +163,7 @@ class BaseCommands(commands.Cog):
 
 
     @commands.command(pass_context=True)
-    async def listsyn(self, ctx):
+    async def synlist(self, ctx):
         liste = mdb.allSynonyme()
         msg = ""
         i = 0
