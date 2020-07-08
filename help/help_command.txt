@@ -8,6 +8,12 @@
 
 **Lsearch :** `Lsearch ITEM`
  Permet de rechercher un lien dont soit un des tags est ITEM ou dont le salon d'origine a pour nom ITEM.
+ BETA Possibilité d'utiliser :
+ - && pour AND
+ - || pour OR
+ - ^ pour XOR
+ - ! pour NOT
+**NE PAS COLLER LES OPÉRATEURS AUX TAGS**
 
 **toptag :** `toptag OPTx`
  Affiche les x tags les plus utilisés, 10 par défaut. Si vous cherchez au dela de 10 la réponse sera envoyée par MP

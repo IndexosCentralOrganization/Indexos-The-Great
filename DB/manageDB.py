@@ -75,6 +75,39 @@ def deleteSyn(oldSyn, authID):
     else:
         return False
 
+
+def tagtotags(tag):
+    return (" chanName ='{}' OR tag1 = '{}' OR tag2 = '{}' OR tag3 = '{}'".format(tag, tag, tag, tag))
+
+
+def search(tagtuple):
+    """
+    Recherche les tags du tuple selon les règles boolennes
+    """
+    n = 0
+    for item in tagtuple:
+        if item != "||" and item != "&&" and item != "^" and item != "!":
+            tagtuple = tagtuple[:n] + ('('+tagtotags(item)+')', ) + tagtuple[n+1:]
+        elif item == '||':
+            tagtuple = tagtuple[:n] + ("OR", ) + tagtuple[n+1:]
+        elif item == '&&':
+            tagtuple = tagtuple[:n] + ("AND", ) + tagtuple[n+1:]
+        elif item == '^':
+            tagtuple = tagtuple[:n] + ("XOR", ) + tagtuple[n+1:]
+        elif item == '!':
+            tagtuple = tagtuple[:n] + ("NOT", ) + tagtuple[n+1:]
+        n += 1
+
+    cond_req = ""
+    for item in tagtuple:
+        cond_req += ' '+item+' '
+
+    cursor = conn.cursor()
+    req = "SELECT * FROM link WHERE " + cond_req
+    print(req)
+    cursor.execute(req)
+    return cursor.fetchall()
+
 def searchByTag(tag):
     """
     Recherche des liens en fonction d'un tag

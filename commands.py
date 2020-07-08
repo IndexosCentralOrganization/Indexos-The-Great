@@ -74,9 +74,10 @@ class BaseCommands(commands.Cog):
 
 
     @commands.command(pass_context=True)
-    async def Lsearch(self, ctx, tag):
-        tag = tag.lower()
-        reslist = list(set(mdb.searchByTag(tag)) | set(mdb.searchByChan(tag)))
+    async def Lsearch(self, ctx, *tags):
+        for tag in tags:
+            tag = tag.lower()
+        reslist = list(mdb.search(tags))
         print(reslist)
         if reslist:
             str = "Liens correspondants à votre recherche :\n"
@@ -86,19 +87,19 @@ class BaseCommands(commands.Cog):
                 elemn_tag3 = elem[5]
                 str += "  **>** "+elem[0]+" ["
                 if elemn_tag1 is not None:
-                    if elemn_tag1 == tag:
+                    if elemn_tag1 in tags:
                         strTag = "**" + elemn_tag1 + "**"
                     else:
                         strTag = elemn_tag1
                     str += strTag
                 if elemn_tag2 is not None:
-                    if elemn_tag2 == tag:
+                    if elemn_tag2 in tags:
                         strTag = "**" + elemn_tag2 + "**"
                     else:
                         strTag = elemn_tag2
                     str += ", "+strTag
                 if elemn_tag3 is not None:
-                    if elemn_tag3 == tag:
+                    if elemn_tag3 in tags:
                         strTag = "**" + elemn_tag3 + "**"
                     else:
                         strTag = elemn_tag3
