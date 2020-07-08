@@ -81,7 +81,30 @@ class BaseCommands(commands.Cog):
         if reslist:
             str = "Liens correspondants à votre recherche :\n"
             for elem in reslist:
-                str += "  **>** "+elem[0]+" \n"
+                elemn_tag1 = elem[3]
+                elemn_tag2 = elem[4]
+                elemn_tag3 = elem[5]
+                str += "  **>** "+elem[0]+" ["
+                if elemn_tag1 is not None:
+                    if elemn_tag1 == tag:
+                        strTag = "**" + elemn_tag1 + "**"
+                    else:
+                        strTag = elemn_tag1
+                    str += strTag
+                if elemn_tag2 is not None:
+                    if elemn_tag2 == tag:
+                        strTag = "**" + elemn_tag2 + "**"
+                    else:
+                        strTag = elemn_tag2
+                    str += ", "+strTag
+                if elemn_tag3 is not None:
+                    if elemn_tag3 == tag:
+                        strTag = "**" + elemn_tag3 + "**"
+                    else:
+                        strTag = elemn_tag3
+                    str += ", "+strTag
+                str += "]\n"
+
         else:
             str = "Aucun lien ne correspond à votre recherche"
         await ctx.channel.send(str)

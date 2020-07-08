@@ -80,7 +80,7 @@ def searchByTag(tag):
     Recherche des liens en fonction d'un tag
     """
     cursor = conn.cursor()
-    cursor.execute("SELECT URL FROM link WHERE tag1 == ? OR tag2 == ? OR tag3 == ?", (tag, tag, tag))
+    cursor.execute("SELECT * FROM link WHERE tag1 == ? OR tag2 == ? OR tag3 == ?", (tag, tag, tag))
     return cursor.fetchall()
 
 
@@ -89,7 +89,7 @@ def searchByChan(chanName):
     Recherche des liens en fonction du nom du channel
     """
     cursor = conn.cursor()
-    cursor.execute("SELECT URL FROM link WHERE chanName == ?", (chanName,))
+    cursor.execute("SELECT * FROM link WHERE chanName == ?", (chanName,))
     return cursor.fetchall()
 
 
