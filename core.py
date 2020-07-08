@@ -11,8 +11,6 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 # initialisation des variables.
 DEFAUT_PREFIX = "!"
 
-date = dt.datetime.now()
-DATE = "{}-{}-{}".format(str(date.day), str(date.month), str(date.year))
 VERSION = open("core/version.txt").read().replace("\n", "")
 TOKEN = open("token/token.txt", "r").read().replace("\n", "")
 PREFIX = open("core/prefix.txt", "r").read().replace("\n", "")
@@ -23,6 +21,8 @@ NONE = open("help/help.txt", "w")
 client.remove_command("help")
 
 async def backup():
+    date = dt.datetime.now()
+    DATE = "{}-{}-{}".format(str(date.day), str(date.month), str(date.year))
     channel = client.get_channel(728749737968271500)  # ID du chan "backup"
     await channel.send("Backup du {}".format(DATE))
     fp = mdb.dumpAllDB()
