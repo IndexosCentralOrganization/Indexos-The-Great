@@ -105,7 +105,7 @@ class BaseCommands(commands.Cog):
                         strTag = elemn_tag3
                     str += ", "+strTag
                 str += "]\n"
-                if i % 50 == 0 and i != 0:
+                if i % 10 == 0 and i != 0:
                     await ctx.channel.send(str)
                     str = ""
 
