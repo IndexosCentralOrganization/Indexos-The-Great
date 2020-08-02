@@ -72,9 +72,9 @@ class BaseCommands(commands.Cog):
         else:
             await ctx.channel.send("Le synonyme n'a pas pu être supprimé")
 
-
     @commands.command(pass_context=True)
     async def Lsearch(self, ctx, *tags):
+        i = 0
         for tag in tags:
             tag = tag.lower()
         reslist = list(mdb.search(tags))
@@ -105,6 +105,11 @@ class BaseCommands(commands.Cog):
                         strTag = elemn_tag3
                     str += ", "+strTag
                 str += "]\n"
+                if i % 50 == 0 and i != 0:
+                    await ctx.channel.send(str)
+                    str = ""
+
+                i += 1
 
         else:
             str = "Aucun lien ne correspond à votre recherche"

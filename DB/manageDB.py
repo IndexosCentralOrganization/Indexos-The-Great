@@ -108,6 +108,7 @@ def search(tagtuple):
     cursor.execute(req)
     return cursor.fetchall()
 
+
 def searchByTag(tag):
     """
     Recherche des liens en fonction d'un tag

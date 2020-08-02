@@ -20,6 +20,7 @@ NONE = open("help/help.txt", "w")
 
 client.remove_command("help")
 
+
 async def backup():
     date = dt.datetime.now()
     DATE = "{}-{}-{}".format(str(date.day), str(date.month), str(date.year))
@@ -30,6 +31,10 @@ async def backup():
     await channel.send(file=fileD)
     rm(fp)
     await channel.send("**=============**")
+
+scheduler = AsyncIOScheduler()
+scheduler.add_job(backup, 'cron', day='*')
+scheduler.start()
 
 # Au demarrage du Bot.
 @client.event
@@ -43,9 +48,6 @@ async def on_ready():
     else:
         print("DB invalide")
 
-    scheduler = AsyncIOScheduler()
-    scheduler.add_job(backup, 'cron', day='*')
-    scheduler.start()
     print("Indexos is ready for index stuff !")
 
 client.load_extension('commands')
