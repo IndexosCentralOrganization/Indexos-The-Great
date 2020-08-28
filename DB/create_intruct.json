@@ -1,7 +1,16 @@
 {
-  "link":
-  "CREATE TABLE IF NOT EXISTS \"link\" (\"URL\" TEXT, \"authID\" INT,\"chanName\" TEXT,\"tag1\" TEXT,\"tag2\" TEXT,\"tag3\" TEXT,PRIMARY KEY(\"URL\"))",
+  "auteur":
+  "CREATE TABLE IF NOT EXISTS \"auteur\" (\"id\" INTEGER PRIMARY KEY)",
+
+  "lien":
+  "CREATE TABLE IF NOT EXISTS \"lien\" (\"URL\" TEXT PRIMARY KEY, \"chanName\" TEXT, \"langue\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
+
+  "tag":
+  "CREATE TABLE IF NOT EXISTS \"tag\" (\"value\" TEXT, \"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"description\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
+
+  "event":
+  "CREATE TABLE IF NOT EXISTS \"event\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"begin_date\" TEXT, \"end_date\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
 
   "synonyme":
-  "CREATE TABLE IF NOT EXISTS \"synonyme\" (\"authID\" INT, \"old\" TEXT, \"new\" TEXT, PRIMARY KEY(\"old\"))"
+  "CREATE TABLE IF NOT EXISTS \"synonyme\" (\"authID\" INTEGER, \"old\" TEXT PRIMARY KEY, \"new\" TEXT, FOREIGN KEY (\"authid\") REFERENCES auteur(id))"
 }
