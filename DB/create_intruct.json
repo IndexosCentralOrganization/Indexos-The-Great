@@ -8,8 +8,11 @@
   "tag":
   "CREATE TABLE IF NOT EXISTS \"tag\" (\"value\" TEXT, \"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"description\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
 
+  "tagmap":
+  "CREATE TABLE IF NOT EXISTS \"tagmap\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"lien_id\" INTEGER, \"tag_id\" INTEGER, FOREIGN KEY (\"lien_id\") REFERENCES lien(id), FOREIGN KEY (\"tag_id\") REFERENCES tag(id))",
+
   "event":
-  "CREATE TABLE IF NOT EXISTS \"event\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"begin_date\" TEXT, \"end_date\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
+  "CREATE TABLE IF NOT EXISTS \"event\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"url\" TEXT, \"begin_date\" TEXT, \"end_date\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id), FOREIGN KEY (\"url\") REFERENCES lien(URL))",
 
   "synonyme":
   "CREATE TABLE IF NOT EXISTS \"synonyme\" (\"authID\" INTEGER, \"old\" TEXT PRIMARY KEY, \"new\" TEXT, FOREIGN KEY (\"authid\") REFERENCES auteur(id))"

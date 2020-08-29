@@ -15,6 +15,98 @@ def initDB():
     return True
 
 
+# Utils
+def existeCheck(table, primKey_name, primKey_var):
+    """
+    table -> str : Nom de la table
+    primKey_name -> str : Nom de la clef primaire
+    primKey_var -> str|int : Valeur de la clef primaire a tester
+    """
+    cursor = conn.cursor()
+    req = ("SELECT * FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var))
+    cursor.execute(req)
+    ret = len(cursor.fetchall())
+
+    if ret > 0:
+        return True
+    else:
+        return False
+
+
+# Commandes sur les auteurs
+def addAuteur(authid):
+    if existAuteur(authid) is False:
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO auteur (id) VALUES (?)", (authid,))
+
+        return authid
+    else:
+        return -1
+
+
+def deleteAuteur(authid):
+    if existAuteur(authid):
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM auteur WHERE id == ?", (authid,))
+        conn.commit()
+
+        return authid
+    else:
+        return -1
+
+
+def existAuteur(authid):
+    return existeCheck("auteur", "id", authid)
+
+
+# Commande sur les liens
+def addLien():
+    pass
+
+
+def deleteLien():
+    pass
+
+
+def existLien(url):
+    return existeCheck("lien", "URL", url)
+
+# Commandes sur les tag
+def addTag():
+    pass
+
+
+def deleteTag():
+    pass
+
+
+# Commande sur la tagmap
+def addTagmap():
+    pass
+
+
+def deleteTagmap():
+    pass
+
+
+# Commandes sur les events
+def addEvent():
+    pass
+
+
+def deleteEvent():
+    pass
+
+
+# Commandes sur les synonymes
+def addSynonyme():
+    pass
+
+
+def deleteSynonyme():
+    pass
+
+
 def addLink(link, authID, chanName, tag1=None, tag2=None, tag3=None):
     """
     link -> string
