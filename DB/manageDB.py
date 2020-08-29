@@ -16,14 +16,14 @@ def initDB():
 
 
 # Utils
-def existeCheck(table, primKey_name, primKey_var):
+def existeItem(table, primKey_name, primKey_var):
     """
     table -> str : Nom de la table
     primKey_name -> str : Nom de la clef primaire
     primKey_var -> str|int : Valeur de la clef primaire a tester
     """
     cursor = conn.cursor()
-    req = ("SELECT * FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var))
+    req = "SELECT * FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var)
     cursor.execute(req)
     ret = len(cursor.fetchall())
 
@@ -33,30 +33,73 @@ def existeCheck(table, primKey_name, primKey_var):
         return False
 
 
+def deleteItem(table, primKey_name, primKey_var):
+    """
+    table -> str : Nom de la table
+    primKey_name -> str : Nom de la clef primaire
+    primKey_var -> str|int : Valeur de la clef primaire a tester
+    """
+    if existeItem(table, primKey_name, primKey_var) is False:
+        return False
+
+    cursor = conn.cursor()
+    req = "DELETE FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var)
+    cursor.execute(req)
+    conn.commit()
+    ret = existeItem(table, primKey_name, primKey_var)
+
+    if ret:
+        return False
+    else:
+        return True
+
+# def addItem(table, listDict):
+#     """
+#     table -> str : Nom de la table
+#     listDict -> dict : dictionnaire formatté {param0:value0, param1:value1}
+#     """
+#     i = 0
+#     cursor = conn.cursor()
+#     req = "INSERT INTO {0}".format(table) + '('
+#     for item in listDict:
+#         if i == 0:
+#             req += item
+#         else:
+#             req += ','+item
+#         i =+ 1
+#     req += ') VALUES ('
+#
+#     i = 0
+#
+#     for item in listDict:
+#         if i == 0:
+#             req += listDict[item]
+#         else:
+#             req += ',' + listDict[item]
+#         i =+ 1
+#
+#     req =+ ')'
+#
+#     cursor.execute(req)
+
+
 # Commandes sur les auteurs
 def addAuteur(authid):
     if existAuteur(authid) is False:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO auteur (id) VALUES (?)", (authid,))
 
-        return authid
+        return False
     else:
-        return -1
+        return True
 
 
 def deleteAuteur(authid):
-    if existAuteur(authid):
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM auteur WHERE id == ?", (authid,))
-        conn.commit()
-
-        return authid
-    else:
-        return -1
+    return deleteItem("auteur", "id", authid)
 
 
 def existAuteur(authid):
-    return existeCheck("auteur", "id", authid)
+    return existeItem("auteur", "id", authid)
 
 
 # Commande sur les liens
@@ -64,20 +107,25 @@ def addLien():
     pass
 
 
-def deleteLien():
-    pass
+def deleteLien(url):
+    return deleteItem("lien", "URL", url)
 
 
 def existLien(url):
-    return existeCheck("lien", "URL", url)
+    return existeItem("lien", "URL", url)
+
 
 # Commandes sur les tag
 def addTag():
     pass
 
 
-def deleteTag():
-    pass
+def deleteTag(id):
+    return deleteItem("tag", "id", id)
+
+
+def existTag(id):
+    return existeItem("tag", "id", id)
 
 
 # Commande sur la tagmap
@@ -85,8 +133,12 @@ def addTagmap():
     pass
 
 
-def deleteTagmap():
-    pass
+def deleteTagmap(id):
+    return deleteItem("tagmap", "id", id)
+
+
+def existTagmap(id):
+    return existeItem("tagmap", "id", id)
 
 
 # Commandes sur les events
@@ -94,17 +146,24 @@ def addEvent():
     pass
 
 
-def deleteEvent():
-    pass
+def deleteEvent(id):
+    return existeItem("event", "id", id)
 
+
+def existEvent(id):
+    return existeItem("event", "id", id)
 
 # Commandes sur les synonymes
 def addSynonyme():
     pass
 
 
-def deleteSynonyme():
-    pass
+def deleteSynonyme(old):
+    return existeItem("synonyme", "old", old)
+
+
+def existSynonyme(old):
+    return existeItem("synonyme", "old", old)
 
 
 def addLink(link, authID, chanName, tag1=None, tag2=None, tag3=None):
