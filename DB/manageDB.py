@@ -133,7 +133,7 @@ def addTag(value, id, description, authid):
     if existTag(id) is False:
         addAuteur(authid)
         cursor = conn.cursor()
-        req = "INSERT INTO lien (value, id, description, authid) VALUES (\"{0}\", {1}, \"{2}\", {3})".format(value, id, description, authid)
+        req = "INSERT INTO lien (value, description, authid) VALUES (\"{0}\", \"{1}\", {2})".format(value, description, authid)
         cursor.execute(req)
         conn.commit()
 
@@ -154,7 +154,7 @@ def existTag(id):
 def addTagmap(id, lien_url, tag_id):
     if existTagmap(id) is False and existLien(lien_url) and existTag(tag_id):
         cursor = conn.cursor()
-        req = "INSERT INTO tagmap (id, lien_url, tag_id) VALUES ({0}, \"{1}\", {2})".format(id, lien_url, tag_id)
+        req = "INSERT INTO tagmap (lien_url, tag_id) VALUES (\"{0}\", {1})".format(lien_url, tag_id)
         cursor.execute(req)
         conn.commit()
 
@@ -172,8 +172,18 @@ def existTagmap(id):
 
 
 # Commandes sur les events
-def addEvent():
-    pass
+def addEvent(id, ):
+    if existTagmap(id) is False and existLien(lien_url) and existTag(tag_id):
+        cursor = conn.cursor()
+        req = "INSERT INTO tagmap (lien_url, tag_id) VALUES (\"{1}\", {2})".format(id, lien_url, tag_id)
+        cursor.execute(req)
+        conn.commit()
+
+        return True
+    else:
+        return False
+
+
 
 
 def deleteEvent(id):
