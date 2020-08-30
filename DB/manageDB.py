@@ -23,7 +23,11 @@ def existeItem(table, primKey_name, primKey_var):
     primKey_var -> str|int : Valeur de la clef primaire a tester
     """
     cursor = conn.cursor()
-    req = "SELECT * FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var)
+    if isinstance(primKey_var, str):
+        req = "SELECT * FROM {0} WHERE {1} like \"{2}\"".format(table, primKey_name, primKey_var)
+    else:
+        req = "SELECT * FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var)
+
     cursor.execute(req)
     ret = len(cursor.fetchall())
 
@@ -88,10 +92,10 @@ def addAuteur(authid):
     if existAuteur(authid) is False:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO auteur (id) VALUES (?)", (authid,))
-
-        return False
-    else:
+        conn.commit()
         return True
+    else:
+        return False
 
 
 def deleteAuteur(authid):
@@ -103,8 +107,17 @@ def existAuteur(authid):
 
 
 # Commande sur les liens
-def addLien():
-    pass
+def addLien(url, chanName, langue, authid):
+    if existLien(url) is False:
+        addAuteur(authid)
+        cursor = conn.cursor()
+        req = "INSERT INTO lien (url, chanName, langue, authid) VALUES (\"{0}\", \"{1}\", \"{2}\", {3})".format(url, chanName, langue, authid)
+        cursor.execute(req)
+        conn.commit()
+
+        return True
+    else:
+        return False
 
 
 def deleteLien(url):
@@ -116,8 +129,17 @@ def existLien(url):
 
 
 # Commandes sur les tag
-def addTag():
-    pass
+def addTag(value, id, description, authid):
+    if existTag(id) is False:
+        addAuteur(authid)
+        cursor = conn.cursor()
+        req = "INSERT INTO lien (value, id, description, authid) VALUES (\"{0}\", {1}, \"{2}\", {3})".format(value, id, description, authid)
+        cursor.execute(req)
+        conn.commit()
+
+        return True
+    else:
+        return False
 
 
 def deleteTag(id):
@@ -129,8 +151,16 @@ def existTag(id):
 
 
 # Commande sur la tagmap
-def addTagmap():
-    pass
+def addTagmap(id, lien_url, tag_id):
+    if existTagmap(id) is False and existLien(lien_url) and existTag(tag_id):
+        cursor = conn.cursor()
+        req = "INSERT INTO tagmap (id, lien_url, tag_id) VALUES ({0}, \"{1}\", {2})".format(id, lien_url, tag_id)
+        cursor.execute(req)
+        conn.commit()
+
+        return True
+    else:
+        return False
 
 
 def deleteTagmap(id):
