@@ -264,4 +264,17 @@ def allSynonyme():
 def searchSynonymeByPrimKey(primkey):
     return simpleItemSearch("synonyme", "old", primkey)
 
+
+def synonymeConvert(old):
+    """
+    Permet de récupérer le synonyme de old dans la table "synonyme", si aucun existe il renvoit -1
+    """
+    cursor = conn.cursor()
+    cursor.execute("SELECT new FROM synonyme WHERE old = ?", (old,))
+    res = cursor.fetchall()
+    if res != []:
+        return res
+    else:
+        return -1
+
 # conn.close()

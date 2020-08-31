@@ -36,6 +36,7 @@ scheduler = AsyncIOScheduler()
 scheduler.add_job(backup, 'cron', day='*')
 scheduler.start()
 
+
 # Au demarrage du Bot.
 @client.event
 async def on_ready():
@@ -50,7 +51,8 @@ async def on_ready():
 
     print("Indexos is ready for index stuff !")
 
-client.load_extension('commands')
+# client.load_extension('commands')
+client.load_extension('commands.lien')
 client.load_extension('help.help')
 
 try:
