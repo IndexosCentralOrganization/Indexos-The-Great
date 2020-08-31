@@ -172,18 +172,17 @@ def existTagmap(id):
 
 
 # Commandes sur les events
-def addEvent(id, ):
-    if existTagmap(id) is False and existLien(lien_url) and existTag(tag_id):
+def addEvent(id, url, begin_date, end_date, authid):
+    if existEvent(id) is False and existLien(url):
+        addAuteur(authid)
         cursor = conn.cursor()
-        req = "INSERT INTO tagmap (lien_url, tag_id) VALUES (\"{1}\", {2})".format(id, lien_url, tag_id)
+        req = "INSERT INTO event (url, begin_date, end_date, authid) VALUES (\"{0}\", \"{1}\", \"{2}\", {3})".format(url, begin_date, end_date, authid)
         cursor.execute(req)
         conn.commit()
 
         return True
     else:
         return False
-
-
 
 
 def deleteEvent(id):
@@ -193,9 +192,19 @@ def deleteEvent(id):
 def existEvent(id):
     return existeItem("event", "id", id)
 
+
 # Commandes sur les synonymes
-def addSynonyme():
-    pass
+def addSynonyme(authid, old, new):
+    if existSynonyme(old) is False:
+        addAuteur(authid)
+        cursor = conn.cursor()
+        req = "INSERT INTO synonyme (authid, old, new) VALUES ({0}, \"{1}\", \"{2}\")".format(authid, old, new)
+        cursor.execute(req)
+        conn.commit()
+
+        return True
+    else:
+        return False
 
 
 def deleteSynonyme(old):
