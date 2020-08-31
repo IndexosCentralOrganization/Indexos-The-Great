@@ -129,4 +129,7 @@ dmypy.json
 .pyre/
 
 #token github
-token/*
+token/token.txt
+
+*.db
+help/cogs.txt
