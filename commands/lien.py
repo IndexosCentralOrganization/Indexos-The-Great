@@ -21,22 +21,27 @@ class LienCommands(commands.Cog):
         authID = ctx.author.id
         chanName = ctx.channel.name
 
+        lienAjoute = bool()
+
         for tag in tags:
             tag = tag.lower()
 
         if val.url(link):
             # Cas où ça marche
+            lienAjoute = mdb.addLien(link, chanName, "??", authID)
             if tags:
                 msg = "Lien ajouté avec les tags :"
                 for tag in tags:
                     tag_tmp = mdb.searchSynonymeByPrimKey(tag)
                     if tag_tmp:
                         tag = tag_tmp[0][2]
-                    
-                    msg =+ " " + tag
+
+                    mdb.addTag(tag, "", authID)
+                    mdb.addTagmap(link, tag)
+                    msg += " " + tag
             else:
                 msg = "Lien ajouté sans tag"
-            if not mdb.addLien(link, chanName, "??", authID):
+            if not lienAjoute:
                 msg = "Le lien existe déjà dans la base de donnée ou une erreur a eu lieu."
         else:
             "Le lien n'est pas conforme"

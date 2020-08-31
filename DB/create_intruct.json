@@ -6,10 +6,10 @@
   "CREATE TABLE IF NOT EXISTS \"lien\" (\"URL\" TEXT PRIMARY KEY, \"chanName\" TEXT, \"langue\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
 
   "tag":
-  "CREATE TABLE IF NOT EXISTS \"tag\" (\"value\" TEXT, \"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"description\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
+  "CREATE TABLE IF NOT EXISTS \"tag\" (\"value\" TEXT PRIMARY KEY, \"description\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
 
   "tagmap":
-  "CREATE TABLE IF NOT EXISTS \"tagmap\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"lien_url\" TEXT, \"tag_id\" INTEGER, FOREIGN KEY (\"lien_url\") REFERENCES lien(URL), FOREIGN KEY (\"tag_id\") REFERENCES tag(id))",
+  "CREATE TABLE IF NOT EXISTS \"tagmap\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"lien_url\" TEXT, \"tag_value\" TEXT, FOREIGN KEY (\"lien_url\") REFERENCES lien(URL), FOREIGN KEY (\"tag_value\") REFERENCES tag(value))",
 
   "event":
   "CREATE TABLE IF NOT EXISTS \"event\" (\"id\" INTEGER PRIMARY KEY AUTOINCREMENT, \"url\" TEXT, \"begin_date\" TEXT, \"end_date\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id), FOREIGN KEY (\"url\") REFERENCES lien(URL))",

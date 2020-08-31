@@ -82,7 +82,7 @@ def allItem(table):
 def simpleItemSearch(table, col_name, col_val):
     cursor = conn.cursor()
     if isinstance(col_val, str):
-        cursor.execute("SELECT * FROM {0} WHERE {1} LIKE {2}".format(table, col_name, col_val))
+        cursor.execute("SELECT * FROM {0} WHERE {1} LIKE \"{2}\"".format(table, col_name, col_val))
     else:
         cursor.execute("SELECT * FROM {0} WHERE {1} == {2}".format(table, col_name, col_val))
 
@@ -116,6 +116,7 @@ def allAuteur():
 def searchAuteurByPrimKey(primkey):
     return simpleItemSearch("auteur", "id", primkey)
 
+
 # Commande sur les liens
 def addLien(url, chanName, langue, authid):
     if existLien(url) is False:
@@ -147,11 +148,11 @@ def searchLienByPrimKey(primkey):
 
 
 # Commandes sur les tag
-def addTag(value, id, description, authid):
-    if existTag(id) is False:
+def addTag(value, description, authid):
+    if existTag(value) is False:
         addAuteur(authid)
         cursor = conn.cursor()
-        req = "INSERT INTO lien (value, description, authid) VALUES (\"{0}\", \"{1}\", {2})".format(value, description, authid)
+        req = "INSERT INTO tag (value, description, authid) VALUES (\"{0}\", \"{1}\", {2})".format(value, description, authid)
         cursor.execute(req)
         conn.commit()
 
@@ -160,12 +161,12 @@ def addTag(value, id, description, authid):
         return False
 
 
-def deleteTag(id):
-    return deleteItem("tag", "id", id)
+def deleteTag(value):
+    return deleteItem("tag", "value", value)
 
 
-def existTag(id):
-    return existeItem("tag", "id", id)
+def existTag(value):
+    return existeItem("tag", "value", value)
 
 
 def allTag():
@@ -177,10 +178,10 @@ def searchTagByPrimKey(primkey):
 
 
 # Commande sur la tagmap
-def addTagmap(id, lien_url, tag_id):
-    if existTagmap(id) is False and existLien(lien_url) and existTag(tag_id):
+def addTagmap(lien_url, tag_value):
+    if existTagmap(lien_url, tag_value) is False and existLien(lien_url) and existTag(tag_value):
         cursor = conn.cursor()
-        req = "INSERT INTO tagmap (lien_url, tag_id) VALUES (\"{0}\", {1})".format(lien_url, tag_id)
+        req = "INSERT INTO tagmap (lien_url, tag_value) VALUES (\"{0}\", \"{1}\")".format(lien_url, tag_value)
         cursor.execute(req)
         conn.commit()
 
@@ -193,8 +194,8 @@ def deleteTagmap(id):
     return deleteItem("tagmap", "id", id)
 
 
-def existTagmap(id):
-    return existeItem("tagmap", "id", id)
+def existTagmap(lien_url, tag_value):
+    return existeItem("tagmap", "lien_url", lien_url) and existeItem("tagmap", "tag_value", tag_value)
 
 
 def allTagmap():
