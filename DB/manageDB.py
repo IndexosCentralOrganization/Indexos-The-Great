@@ -16,6 +16,17 @@ def initDB():
 
 
 # Utils
+def dumpAllDB():
+    """
+    Dump toute la base de donnée dans dump.sql
+    """
+    name = 'dump.sql'
+    with open(name, 'w') as f:
+        for line in conn.iterdump():
+            f.write('%s\n' % line)
+    return name
+
+
 def existeItem(table, primKey_name, primKey_var):
     """
     table -> str : Nom de la table
@@ -68,6 +79,17 @@ def allItem(table):
     return res
 
 
+def simpleItemSearch(table, col_name, col_val):
+    cursor = conn.cursor()
+    if isinstance(col_val, str):
+        cursor.execute("SELECT * FROM {0} WHERE {1} LIKE {2}".format(table, col_name, col_val))
+    else:
+        cursor.execute("SELECT * FROM {0} WHERE {1} == {2}".format(table, col_name, col_val))
+
+    res = cursor.fetchall()
+    return res
+
+
 # Commandes sur les auteurs
 def addAuteur(authid):
     if existAuteur(authid) is False:
@@ -90,6 +112,9 @@ def existAuteur(authid):
 def allAuteur():
     return allItem("auteur")
 
+
+def searchAuteurByPrimKey(primkey):
+    return simpleItemSearch("auteur", "id", primkey)
 
 # Commande sur les liens
 def addLien(url, chanName, langue, authid):
@@ -115,6 +140,10 @@ def existLien(url):
 
 def allLien():
     return allItem("lien")
+
+
+def searchLienByPrimKey(primkey):
+    return simpleItemSearch("lien", "URL", primkey)
 
 
 # Commandes sur les tag
@@ -143,6 +172,10 @@ def allTag():
     return allItem("tag")
 
 
+def searchTagByPrimKey(primkey):
+    return simpleItemSearch("tag", "id", primkey)
+
+
 # Commande sur la tagmap
 def addTagmap(id, lien_url, tag_id):
     if existTagmap(id) is False and existLien(lien_url) and existTag(tag_id):
@@ -166,6 +199,11 @@ def existTagmap(id):
 
 def allTagmap():
     return allItem("tagmap")
+
+
+def searchTagmapByPrimKey(primkey):
+    return simpleItemSearch("tagmap", "id", primkey)
+
 
 # Commandes sur les events
 def addEvent(id, url, begin_date, end_date, authid):
@@ -191,6 +229,10 @@ def existEvent(id):
 
 def allEvent():
     return allItem("event")
+
+
+def searchEventByPrimKey(primkey):
+    return simpleItemSearch("event", "id", primkey)
 
 
 # Commandes sur les synonymes
@@ -219,20 +261,7 @@ def allSynonyme():
     return allItem("synonyme")
 
 
-def dumpAllDB():
-    """
-    Dump toute la base de donnée dans dump.sql
-    """
-    name = 'dump.sql'
-    with open(name, 'w') as f:
-        for line in conn.iterdump():
-            f.write('%s\n' % line)
-    return name
-
-
-
-
-
-
+def searchSynonymeByPrimKey(primkey):
+    return simpleItemSearch("synonyme", "old", primkey)
 
 # conn.close()
