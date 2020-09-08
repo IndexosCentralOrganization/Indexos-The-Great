@@ -58,7 +58,10 @@ def deleteItem(table, primKey_name, primKey_var):
         return False
 
     cursor = conn.cursor()
-    req = "DELETE FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var)
+    if isinstance(primKey_var, str):
+        req = "DELETE FROM {0} WHERE {1} LIKE \"{2}\"".format(table, primKey_name, primKey_var)
+    else:
+        req = "DELETE FROM {0} WHERE {1} == {2}".format(table, primKey_name, primKey_var)
     cursor.execute(req)
     conn.commit()
     ret = existeItem(table, primKey_name, primKey_var)
@@ -195,7 +198,16 @@ def deleteTagmap(id):
 
 
 def existTagmap(lien_url, tag_value):
-    return existeItem("tagmap", "lien_url", lien_url) and existeItem("tagmap", "tag_value", tag_value)
+    cursor = conn.cursor()
+    req = "SELECT * FROM tagmap WHERE lien_url like \"{0}\" AND tag_value like \"{1}\"".format(lien_url, tag_value)
+
+    cursor.execute(req)
+    ret = len(cursor.fetchall())
+
+    if ret > 0:
+        return True
+    else:
+        return False
 
 
 def allTagmap():
@@ -278,4 +290,33 @@ def synonymeConvert(old):
     else:
         return -1
 
+
+def searchLinkFromTags(tagtuple):
+    """
+    Recherche les tags du tuple selon les règles boolennes
+    retourne liste lien
+    """
+
+    cursor = conn.cursor()
+    req = ""
+    entete = "SELECT lien_url FROM tagmap "
+    n = 0
+
+    # Lsearch gris or blanc and markdown
+
+    for item in tagtuple:
+        if item == "and":
+            req += "\n INTERSECT \n"
+        elif item == "or":
+            req += "\n UNION \n"
+        elif item == "not":
+            req += "\n EXCEPT \n"
+        else:
+            # On est dans le cas où c'est pas un opérateur
+            req += entete
+            req += "WHERE tag_value LIKE '{0}'".format(item)
+
+    print(req)
+    cursor.execute(req)
+    return cursor.fetchall()
 # conn.close()
