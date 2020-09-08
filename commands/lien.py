@@ -1,7 +1,9 @@
 import validators as val
 import DB.manageDB as mdb
+import wikipedia as wiki
 from discord.ext import commands
 
+wiki.set_lang("fr")
 
 class LienCommands(commands.Cog):
     def __init__(self, ctx):
@@ -33,7 +35,14 @@ class LienCommands(commands.Cog):
                     if tag_tmp:
                         tag = tag_tmp[0][2]
 
-                    mdb.addTag(tag, "", authID)
+                    desc_wiki = ""
+                    
+                    try:
+                        desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
+                    except:
+                        pass
+
+                    mdb.addTag(tag, desc_wiki, authID)
                     mdb.addTagmap(link, tag)
                     msg += " " + tag
             else:
