@@ -27,6 +27,36 @@ def dumpAllDB():
     return name
 
 
+def colOccurence(colName, tableName):
+    """
+    colName -> Nom de la colonne dont ont veux le nombre d'occurence en fonction du
+               nombre de lien
+    tableName -> Nom de la table
+    """
+    cursor = conn.cursor()
+    req = "SELECT {0}, COUNT(*) FROM {1} GROUP BY {0}".format(colName, tableName)
+    cursor.execute(req)
+    return cursor.fetchall()
+
+
+def updateItem(table, primKey_name, primKey_var, keyName, keyVal):
+    """
+    table -> nom de la table
+    primKey_name -> Nom de la clef primaire
+    primKey_var -> valeur de la clef primaire
+    keyName -> nom de la clef a changer
+    keyVal -> valeur de la clef a changer
+    """
+
+    cursor = conn.cursor()
+    if isinstance(keyVal, str):
+        req = "UPDATE {0} SET {1} = {2} WHERE {3} LIKE \'{4}\'".format(table, keyName, keyVal, primKey_name, primKey_var)
+    else:
+        req = "UPDATE {0} SET {1} = {2} WHERE {3} == \'{4}\'".format(table, keyName, keyVal, primKey_name, primKey_var)
+    cursor.execute(req)
+    conn.commit()
+
+
 def existeItem(table, primKey_name, primKey_var):
     """
     table -> str : Nom de la table
@@ -177,7 +207,7 @@ def allTag():
 
 
 def searchTagByPrimKey(primkey):
-    return simpleItemSearch("tag", "id", primkey)
+    return simpleItemSearch("tag", "value", primkey)
 
 
 # Commande sur la tagmap
@@ -319,4 +349,5 @@ def searchLinkFromTags(tagtuple):
     print(req)
     cursor.execute(req)
     return cursor.fetchall()
+
 # conn.close()
