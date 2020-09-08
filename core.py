@@ -7,6 +7,8 @@ from os import remove as rm
 import DB.manageDB as mdb
 import datetime as dt
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from Crypto.Cipher import AES
+
 
 # initialisation des variables.
 DEFAUT_PREFIX = "!"
@@ -53,6 +55,7 @@ async def on_ready():
 
 # client.load_extension('commands')
 client.load_extension('commands.lien')
+client.load_extension('commands.tag')
 client.load_extension('help.help')
 
 try:

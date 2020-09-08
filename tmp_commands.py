@@ -13,65 +13,6 @@ class BaseCommands(commands.Cog):
         return(None)
 
     # @commands.command(pass_context=True)
-    # async def Ldel(self, ctx, link):
-    #     if mdb.deleteLink(link, ctx.author.id):
-    #         await ctx.channel.send("Lien supprimé")
-    #         await ctx.message.delete()
-    #     else:
-    #         await ctx.channel.send("Le lien n'a pas pu être supprimé")
-    #
-    # @commands.command(pass_context=True)
-    # async def syndel(self, ctx, oldSyn):
-    #     if mdb.deleteSyn(oldSyn, ctx.author.id):
-    #         await ctx.channel.send("Synonyme supprimé")
-    #         await ctx.message.delete()
-    #     else:
-    #         await ctx.channel.send("Le synonyme n'a pas pu être supprimé")
-    #
-    # @commands.command(pass_context=True)
-    # async def Lsearch(self, ctx, *tags):
-    #     i = 0
-    #     for tag in tags:
-    #         tag = tag.lower()
-    #     reslist = list(mdb.search(tags))
-    #     print(reslist)
-    #     if reslist:
-    #         str = "Liens correspondants à votre recherche :\n"
-    #         for elem in reslist:
-    #             elemn_tag1 = elem[3]
-    #             elemn_tag2 = elem[4]
-    #             elemn_tag3 = elem[5]
-    #             str += "  **>** "+elem[0]+" ["
-    #             if elemn_tag1 is not None:
-    #                 if elemn_tag1 in tags:
-    #                     strTag = "**" + elemn_tag1 + "**"
-    #                 else:
-    #                     strTag = elemn_tag1
-    #                 str += strTag
-    #             if elemn_tag2 is not None:
-    #                 if elemn_tag2 in tags:
-    #                     strTag = "**" + elemn_tag2 + "**"
-    #                 else:
-    #                     strTag = elemn_tag2
-    #                 str += ", "+strTag
-    #             if elemn_tag3 is not None:
-    #                 if elemn_tag3 in tags:
-    #                     strTag = "**" + elemn_tag3 + "**"
-    #                 else:
-    #                     strTag = elemn_tag3
-    #                 str += ", "+strTag
-    #             str += "]\n"
-    #             if i % 10 == 0 and i != 0:
-    #                 await ctx.channel.send(str)
-    #                 str = ""
-    #
-    #             i += 1
-    #
-    #     else:
-    #         str = "Aucun lien ne correspond à votre recherche"
-    #     await ctx.channel.send(str)
-    #
-    # @commands.command(pass_context=True)
     # async def github(self, ctx):
     #     await ctx.channel.send("https://github.com/gnouf1/Indexos-The-Great")
     #
