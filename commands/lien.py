@@ -1,9 +1,6 @@
-import discord
 import validators as val
 import DB.manageDB as mdb
 from discord.ext import commands
-from discord.ext.commands import bot
-from os import remove as rm
 
 
 class LienCommands(commands.Cog):
@@ -62,13 +59,12 @@ class LienCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def Lsearch(self, ctx, *tags):
+
         resLinks = mdb.searchLinkFromTags(tags)
 
         if resLinks:
             str = "Liens correspondants à votre recherche :\n"
             for link in resLinks:
-                # print(link[0])
-                # print(type(link[0]))
                 dataLink = mdb.simpleItemSearch("tagmap", "lien_url", link[0])
                 tagsList = list()
 
