@@ -1,9 +1,7 @@
 import validators as val
 import DB.manageDB as mdb
-import wikipedia as wiki
 from discord.ext import commands
 
-wiki.set_lang("fr")
 
 class LienCommands(commands.Cog):
     def __init__(self, ctx):
@@ -35,16 +33,7 @@ class LienCommands(commands.Cog):
                     if tag_tmp:
                         tag = tag_tmp[0][2]
 
-                    desc_wiki = ""
-
-                    # desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
-
-                    try:
-                        desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
-                    except wiki.exceptions.DisambiguationError:
-                        pass
-
-                    mdb.addTag(tag, desc_wiki, authID)
+                    mdb.addTag(tag, "", authID)
                     mdb.addTagmap(link, tag)
                     msg += " " + tag
             else:
@@ -70,6 +59,22 @@ class LienCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def Lsearch(self, ctx, *tags):
+        """
+        tags -> tuple avec soit des tag soit sous la forme `lang=??` et `chan=??` la langue ou le channel voulu
+        """
+
+        for item in tags:
+            if "lang=" in item:
+                index_item = tags.index(item)
+                lang = tags[index_item].split('=')[1]
+                tags = tags[:index_item] + tags[index_item+1:]
+            elif "chan=" in item:
+                index_item = tags.index(item)
+                chan = tags[index_item].split('=')[1]
+                tags = tags[:index_item] + tags[index_item+1:]
+
+        print(lang)
+        print(tags)
 
         resLinks = mdb.searchLinkFromTags(tags)
 
@@ -111,13 +116,13 @@ class LienCommands(commands.Cog):
                     tag_tmp = mdb.searchSynonymeByPrimKey(tag)
                     if tag_tmp:
                         tag = tag_tmp[0][2]
-                    desc_wiki = ""
-
-                    try:
-                        desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
-                    except wiki.exceptions.DisambiguationError:
-                        pass
-                    mdb.addTag(tag, desc_wiki, ctx.author.id)
+                    # desc_wiki = ""
+                    #
+                    # try:
+                    #     desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
+                    # except wiki.exceptions.DisambiguationError:
+                    #     pass
+                    mdb.addTag(tag, "", ctx.author.id)
                     mdb.addTagmap(link, tag)
                 await ctx.channel.send("Tag(s) bien ajouté(s).")
 

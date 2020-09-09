@@ -1,6 +1,9 @@
 import DB.manageDB as mdb
 from discord.ext import commands
 import discord
+import wikipedia as wiki
+
+wiki.set_lang("fr")
 
 
 class tagCommands(commands.Cog):
@@ -33,6 +36,7 @@ class tagCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def infotag(self, ctx, tag):
+        flag = 0
         dataTag = mdb.searchTagByPrimKey(tag)[0]
         name = dataTag[0]
         desc = dataTag[1]
@@ -40,11 +44,22 @@ class tagCommands(commands.Cog):
         # updater = ctx.author.id
 
         if desc == "":
-            msg = "Il n'y a pas de description sur ce tag ! Ecrivez-en une !"
-            await ctx.channel.send(msg)
-        else:
+            desc_wiki = ""
+            try:
+                desc_wiki = "[issu de wikipedia] " + wiki.summary(tag, sentences=3)
+                mdb.updateItem("tag", "value", tag, "description", desc_wiki)
+                flag = 1
+            except wiki.exceptions.DisambiguationError:
+                flag = 0
+
+        if flag:
             desc_ = "Ajouté par : <@{0}> \n\n **==========**\n***DESCRIPTION***\n**==========**\n\n".format(auth) + desc
             msg = discord.Embed(title=name, color=35723, description=desc_)
             await ctx.channel.send(embed=msg)
+        else:
+            msg = "Il n'y a pas de description sur ce tag ! Ecrivez-en une !"
+            await ctx.channel.send(msg)
+
+
 def setup(bot):
     bot.add_cog(tagCommands(bot))
