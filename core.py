@@ -5,6 +5,7 @@ from discord.ext.commands import Bot
 import apscheduler as sc
 from os import remove as rm
 from os import system as sys
+from os import urandom as urand
 import DB.manageDB as mdb
 import datetime as dt
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -32,7 +33,7 @@ def cryptBackup(fileBackupDb):
     params : backup file
     """
     # init variables
-    key = os.urandom(16)
+    key = urand(16)
     date = dt.datetime.now()
     DATE = "{}-{}-{}".format(str(date.day), str(date.month), str(date.year))
 
