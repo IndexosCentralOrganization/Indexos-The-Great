@@ -98,6 +98,50 @@ class LienCommands(commands.Cog):
             str = "Aucun lien ne correspond à votre recherche"
             await ctx.channel.send(str)
 
+    @commands.command(pass_context=True)
+    async def Lmodify(self, ctx, link, arg, *tags):
+        """
+        arg -> "add"|"del" permet de savoir si l'utilisateur souhaite supprimer ou ajouter un tag
+        link -> str : le lien dont on doit modifier les tags
+        tags -> tuple : tuple de tags a ajouter ou supprimer
+        """
+        if mdb.searchLienByPrimKey(link)[0][3] == ctx.author.id:
+            if arg == "add":
+                for tag in tags:
+                    tag_tmp = mdb.searchSynonymeByPrimKey(tag)
+                    if tag_tmp:
+                        tag = tag_tmp[0][2]
+                    desc_wiki = ""
+
+                    try:
+                        desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
+                    except wiki.exceptions.DisambiguationError:
+                        pass
+                    mdb.addTag(tag, desc_wiki, ctx.author.id)
+                    mdb.addTagmap(link, tag)
+                await ctx.channel.send("Tag(s) bien ajouté(s).")
+
+            elif arg == "del":
+                setTags = set()
+                listTagmap = mdb.simpleItemSearch("tagmap", "lien_url", link)
+                for tagmap in listTagmap:
+                    setTags.add(tagmap[2])
+                tmpSet = set(tags)
+
+                if tmpSet.issubset(setTags):
+                    for tagmap in listTagmap:
+                        if tagmap[2] in tags:
+                            mdb.deleteTagmap(tagmap[0])
+                    await ctx.channel.send("Tag(s) bien supprimé(s).")
+                else:
+                    await ctx.channel.send("Tag(s) impossible a supprimer car absent de la liste original.")
+
+            else:
+                await ctx.channel.send("Veuillez préciser `add` ou `del`.")
+
+        else:
+            await ctx.channel.send("Vous devez être l'auteur du lien pour le modifier. Son auteur est : <@{0}>".format(mdb.searchLienByPrimKey(link)[0][3]))
+
 
 def setup(bot):
     bot.add_cog(LienCommands(bot))
