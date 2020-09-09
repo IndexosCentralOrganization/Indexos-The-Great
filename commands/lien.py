@@ -36,10 +36,12 @@ class LienCommands(commands.Cog):
                         tag = tag_tmp[0][2]
 
                     desc_wiki = ""
-                    
+
+                    # desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
+
                     try:
                         desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
-                    except:
+                    except wiki.exceptions.DisambiguationError:
                         pass
 
                     mdb.addTag(tag, desc_wiki, authID)
