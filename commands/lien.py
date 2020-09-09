@@ -116,12 +116,7 @@ class LienCommands(commands.Cog):
                     tag_tmp = mdb.searchSynonymeByPrimKey(tag)
                     if tag_tmp:
                         tag = tag_tmp[0][2]
-                    # desc_wiki = ""
-                    #
-                    # try:
-                    #     desc_wiki = "[issu de wikipedia]" + wiki.summary(tag, sentences=3)
-                    # except wiki.exceptions.DisambiguationError:
-                    #     pass
+
                     mdb.addTag(tag, "", ctx.author.id)
                     mdb.addTagmap(link, tag)
                 await ctx.channel.send("Tag(s) bien ajouté(s).")

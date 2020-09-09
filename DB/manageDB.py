@@ -59,7 +59,6 @@ def updateItem(table, primKey_name, primKey_var, keyName, keyVal):
     else:
         req += "WHERE {0} == {1}".format(primKey_name, primKey_var)
 
-    print(req)
     cursor.execute(req)
     conn.commit()
 

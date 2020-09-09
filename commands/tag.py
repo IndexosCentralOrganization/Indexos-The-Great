@@ -41,13 +41,16 @@ class tagCommands(commands.Cog):
         name = dataTag[0]
         desc = dataTag[1]
         auth = dataTag[2]
-        # updater = ctx.author.id
+        updater = dataTag[3]
 
-        if desc == "":
+        if desc == "" or desc is None:
             desc_wiki = ""
             try:
                 desc_wiki = "[issu de wikipedia] " + wiki.summary(tag, sentences=3)
+                updater = 1002
                 mdb.updateItem("tag", "value", tag, "description", desc_wiki.replace("'", " "))
+                mdb.updateItem("tag", "value", tag, "updaterid", updater)
+
                 flag = 1
                 desc = desc_wiki
             except wiki.exceptions.DisambiguationError:
@@ -56,7 +59,14 @@ class tagCommands(commands.Cog):
             flag = 1
 
         if flag:
-            desc_ = "Ajouté par : <@{0}> \n\n **==========**\n***DESCRIPTION***\n**==========**\n\n".format(auth) + desc
+            desc_ = "Ajouté par : <@{0}> \n".format(auth)
+            desc_ += "Mis à jour par : "
+            if updater == 1002:
+                desc_ += "*Wikipedia*\n"
+            else:
+                desc_ += "<@{0}>".format(updater)
+
+            desc_ += "\n **==========**\n***DESCRIPTION***\n**==========**\n\n" + desc
             msg = discord.Embed(title=name, color=35723, description=desc_)
             await ctx.channel.send(embed=msg)
         else:
