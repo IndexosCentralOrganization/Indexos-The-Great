@@ -50,9 +50,16 @@ def updateItem(table, primKey_name, primKey_var, keyName, keyVal):
 
     cursor = conn.cursor()
     if isinstance(keyVal, str):
-        req = "UPDATE {0} SET {1} = {2} WHERE {3} LIKE \'{4}\'".format(table, keyName, keyVal, primKey_name, primKey_var)
+        req = "UPDATE {0} SET {1} = \'{2}\' ".format(table, keyName, keyVal)
     else:
-        req = "UPDATE {0} SET {1} = {2} WHERE {3} == \'{4}\'".format(table, keyName, keyVal, primKey_name, primKey_var)
+        req = "UPDATE {0} SET {1} = {2} ".format(table, keyName, keyVal)
+
+    if isinstance(primKey_var, str):
+        req += "WHERE {0} LIKE \'{1}\'".format(primKey_name, primKey_var)
+    else:
+        req += "WHERE {0} == {1}".format(primKey_name, primKey_var)
+
+    print(req)
     cursor.execute(req)
     conn.commit()
 

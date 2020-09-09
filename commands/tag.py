@@ -47,10 +47,13 @@ class tagCommands(commands.Cog):
             desc_wiki = ""
             try:
                 desc_wiki = "[issu de wikipedia] " + wiki.summary(tag, sentences=3)
-                mdb.updateItem("tag", "value", tag, "description", desc_wiki)
+                mdb.updateItem("tag", "value", tag, "description", desc_wiki.replace("'", " "))
                 flag = 1
+                desc = desc_wiki
             except wiki.exceptions.DisambiguationError:
                 flag = 0
+        else:
+            flag = 1
 
         if flag:
             desc_ = "Ajouté par : <@{0}> \n\n **==========**\n***DESCRIPTION***\n**==========**\n\n".format(auth) + desc

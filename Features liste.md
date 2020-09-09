@@ -33,5 +33,5 @@
 
 - [x] Uploadée sur anonfile
 - [x] Cryptée
-- [ ] Proposer un script pour la décrypter
+- [x] Proposer un script pour la décrypter
 
