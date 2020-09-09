@@ -74,7 +74,7 @@ async def backup():
     data = output.split("\n")
     dataF = json.loads(data[parseN])
 
-    await channel("** You can download todays backup through this link and the key file to decrypt it! **")
+    await channel.send("** You can download todays backup through this link and the key file to decrypt it! **")
     await channel.send(dataF['data']['file']['url']['full'])
     fileD = discord.File(keyFile, "backupKeyFile{}.k".format(DATE))
     await channel.send(file=fileD)
