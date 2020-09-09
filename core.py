@@ -42,6 +42,7 @@ def cryptBackup(fileBackupDb):
     nonce =  cipher.nonce
 
     # encrypt the sql file
+    fileSql = open(fileBackupDb, "r")
     data = fileBackupDb.read()
     dataf = bytes(data, 'utf-8')
     ciphertext, tag = cipher.encrypt_and_digest(dataf)
