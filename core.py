@@ -82,8 +82,8 @@ async def backup():
     await channel.send(file=fileD)
     rm(fp)
     await channel.send("**=============**")
-    rm("backupKeyFile{}.k".format(DATE))
-    rm("backup{}.sql".format(DATE))
+    rm(backupCryptedFile.name)
+    rm(keyFile.name)
 
 scheduler = AsyncIOScheduler()
 scheduler.add_job(backup, 'cron', day='*')
