@@ -53,6 +53,8 @@ def cryptBackup(fileBackupDb):
     # generate key file
     keyF = open("backUpKey{}.k".format(DATE), "wb")
     keyF.write(key)
+    keyF.close()
+
 
     return file.name, keyF.name
 
@@ -80,6 +82,8 @@ async def backup():
     await channel.send(file=fileD)
     rm(fp)
     await channel.send("**=============**")
+    rm("backupKeyFile{}.k".format(DATE))
+    rm("backup{}.sql".format(DATE))
 
 scheduler = AsyncIOScheduler()
 scheduler.add_job(backup, 'cron', day='*')
