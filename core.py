@@ -43,7 +43,7 @@ def cryptBackup(fileBackupDb):
 
     # encrypt the sql file
     fileSql = open(fileBackupDb, "r")
-    data = fileBackupDb.read()
+    data = fileSql.read()
     dataf = bytes(data, 'utf-8')
     ciphertext, tag = cipher.encrypt_and_digest(dataf)
     file = open("backup{}.sql".format(DATE), "wb")
@@ -74,7 +74,7 @@ async def backup():
     data = output.split("\n")
     dataF = json.loads(data[parseN])
 
-    await channel("** You can download todays backup through this link and the key file to decrypt it! **")
+    await channel.send("** You can download todays backup through this link and the key file to decrypt it! **")
     await channel.send(dataF['data']['file']['url']['full'])
     fileD = discord.File(keyFile, "backupKeyFile{}.k".format(DATE))
     await channel.send(file=fileD)
