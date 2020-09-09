@@ -1,12 +1,8 @@
 import discord
 import DB.manageDB as mdb
 from discord.ext import commands
-from discord.ext.commands import Bot
-import apscheduler as sc
 from os import remove as rm
-from os import system as sys
 from os import urandom as urand
-import DB.manageDB as mdb
 import datetime as dt
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from Crypto.Cipher import AES
@@ -25,6 +21,7 @@ NONE = open("help/cogs.txt", "w")
 NONE = open("help/help.txt", "w")
 
 client.remove_command("help")
+
 
 # crypto
 def cryptBackup(fileBackupDb):
@@ -55,9 +52,7 @@ def cryptBackup(fileBackupDb):
     keyF.write(key)
     keyF.close()
 
-
     return file.name, keyF.name
-
 
 
 async def backup():
@@ -102,7 +97,7 @@ async def on_ready():
     else:
         print("DB invalide")
 
-    print("Indexos is ready for index stuff !")
+    print("Indexos is ready to index stuff !")
 
 # client.load_extension('commands')
 client.load_extension('commands.lien')
