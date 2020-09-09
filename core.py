@@ -37,6 +37,8 @@ def cryptBackup(fileBackupDb):
     # prepare Cipher
     cipher = AES.new(key, AES.MODE_EAX)
     nonce =  cipher.nonce
+    nonceF = open("noncefile.txt", "wb")
+    nonceF.write(nonce)
 
     # encrypt the sql file
     fileSql = open(fileBackupDb, "r")
@@ -52,7 +54,7 @@ def cryptBackup(fileBackupDb):
     keyF.write(key)
     keyF.close()
 
-    return file.name, keyF.name
+    return file.name, keyF.name, nonceF.name
 
 
 async def backup():
@@ -65,6 +67,7 @@ async def backup():
 
     backupCryptedFile = open(res[0], "rb")
     keyFile = open(res[1], "rb")
+    nonceFile = open(res[2], "rb")
 
     output = subprocess.getoutput("curl -F \"file=@{}\" https://api.anonfiles.com/upload".format(backupCryptedFile.name))
     parseN = output.count("\n")
@@ -74,9 +77,12 @@ async def backup():
     await channel.send("** You can download todays backup through this link and the key file to decrypt it! **")
     await channel.send(dataF['data']['file']['url']['full'])
     fileD = discord.File(keyFile, "backupKeyFile{}.k".format(DATE))
+    fileN = discord.File(nonceFile, "nonceFile-{}.txt".format(DATE))
     await channel.send(file=fileD)
-    rm(fp)
+    await channel.send(file=fileN)
     await channel.send("**=============**")
+    rm(fp)
+    rm(nonceFile.name)
     rm(backupCryptedFile.name)
     rm(keyFile.name)
 
