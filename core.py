@@ -43,7 +43,7 @@ def cryptBackup(fileBackupDb):
 
     # encrypt the sql file
     fileSql = open(fileBackupDb, "r")
-    data = fileBackupDb.read()
+    data = fileSql.read()
     dataf = bytes(data, 'utf-8')
     ciphertext, tag = cipher.encrypt_and_digest(dataf)
     file = open("backup{}.sql".format(DATE), "wb")
