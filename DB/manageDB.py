@@ -269,7 +269,7 @@ def addEvent(id, url, begin_date, end_date, authid):
 
 
 def deleteEvent(id):
-    return existeItem("event", "id", id)
+    return deleteItem("event", "id", id)
 
 
 def existEvent(id):
@@ -299,7 +299,7 @@ def addSynonyme(authid, old, new):
 
 
 def deleteSynonyme(old):
-    return existeItem("synonyme", "old", old)
+    return deleteItem("synonyme", "old", old)
 
 
 def existSynonyme(old):
