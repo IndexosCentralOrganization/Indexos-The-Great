@@ -74,5 +74,19 @@ class tagCommands(commands.Cog):
             await ctx.channel.send(msg)
 
 
+    @commands.command(pass_context=True)
+    async def desctag(self, ctx, tag, *desc):
+        str = ""
+        if mdb.searchTagByPrimKey(tag)[0][2] == ctx.author.id:
+            for item in desc:
+                str += " {0}".foramt(item)
+            mdb.updateItem("tag", "value", tag, "description", str.replace("'", " "))
+            mdb.updateItem("tag", "value", tag, "updaterid", ctx.author.id)
+            msg = "Changement effectué avec succès !"
+        else:
+            msg = "Vous ne pouvez pas modifier ce tag ! Seul <@{0}> le peut !".format(mdb.searchTagByPrimKey(tag)[0][2])
+        await ctx.channel.send(msg)
+
+
 def setup(bot):
     bot.add_cog(tagCommands(bot))
