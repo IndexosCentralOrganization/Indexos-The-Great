@@ -29,7 +29,7 @@ class LienCommands(commands.Cog):
             # Cas où ça marche
             title, description = "", ""
             try:
-                ret = web_preview(link)
+                ret = web_preview(link, timeout=500)
                 title, description = ret[0], ret[1]
             except:
                 pass
@@ -100,11 +100,9 @@ class LienCommands(commands.Cog):
 
                 del(dataLink)
 
-                # str += "  **>** "+link[0]+" ["
-
                 # Layout part
                 propertiesLink = mdb.searchLienByPrimKey(link[0])
-                # title, description = web_preview(link[0])
+
                 if propertiesLink[0][4]:
                     titre = propertiesLink[0][4]
                 else:
