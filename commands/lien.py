@@ -1,6 +1,8 @@
 import validators as val
 import DB.manageDB as mdb
 from discord.ext import commands
+import discord
+from webpreview import web_preview
 
 
 class LienCommands(commands.Cog):
@@ -25,7 +27,14 @@ class LienCommands(commands.Cog):
 
         if val.url(link):
             # Cas où ça marche
-            lienAjoute = mdb.addLien(link, chanName, "??", authID)
+            title, description = "", ""
+            try:
+                ret = web_preview(link)
+                title, description = ret[0], ret[1]
+            except:
+                pass
+
+            lienAjoute = mdb.addLien(link, chanName, "??", authID, title, description)
             if tags:
                 msg = "Lien ajouté avec les tags :"
                 for tag in tags:
@@ -62,7 +71,8 @@ class LienCommands(commands.Cog):
         """
         tags -> tuple avec soit des tag soit sous la forme `lang=??` et `chan=??` la langue ou le channel voulu
         """
-
+        lang = ""
+        chan = ""
         for item in tags:
             if "lang=" in item:
                 index_item = tags.index(item)
@@ -73,14 +83,15 @@ class LienCommands(commands.Cog):
                 chan = tags[index_item].split('=')[1]
                 tags = tags[:index_item] + tags[index_item+1:]
 
-        print(lang)
-        print(tags)
-
         resLinks = mdb.searchLinkFromTags(tags)
 
         if resLinks:
             str = "Liens correspondants à votre recherche :\n"
+            await ctx.channel.send(str)
+            str = ""
+
             for link in resLinks:
+                # Tags part
                 dataLink = mdb.simpleItemSearch("tagmap", "lien_url", link[0])
                 tagsList = list()
 
@@ -89,15 +100,39 @@ class LienCommands(commands.Cog):
 
                 del(dataLink)
 
-                str += "  **>** "+link[0]+" ["
+                # str += "  **>** "+link[0]+" ["
 
+                # Layout part
+                propertiesLink = mdb.searchLienByPrimKey(link[0])
+                # title, description = web_preview(link[0])
+                if propertiesLink[0][4]:
+                    titre = propertiesLink[0][4]
+                else:
+                    titre = "Aller voir..."
+
+                str += "Channel : {}\n".format(propertiesLink[0][1])
+                str += "Langue : {}\n".format(propertiesLink[0][2])
+                str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+
+                if propertiesLink[0][5]:
+                    str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
+
+                str += "\n\n**Tags :**\n "
+                i = 0
                 for tag in tagsList:
+                    if i:
+                        str += ', '
                     if tag in tags:
-                        str += " **{0}** ".format(tag)
+                        str += "**{0}**".format(tag)
                     else:
-                        str += " {0} ".format(tag)
-                str += "]"
-                await ctx.channel.send(str)
+                        str += "{0}".format(tag)
+                    i += 1
+
+                str += "\n\n*{}*".format(link[0])
+
+                msg = discord.Embed(title=titre, color=71013, url=link[0], description=str)
+
+                await ctx.channel.send(embed=msg)
                 str = ""
         else:
             str = "Aucun lien ne correspond à votre recherche"

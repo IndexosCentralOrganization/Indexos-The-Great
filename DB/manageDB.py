@@ -157,11 +157,11 @@ def searchAuteurByPrimKey(primkey):
 
 
 # Commande sur les liens
-def addLien(url, chanName, langue, authid):
+def addLien(url, chanName, langue, authid, preview_title, preview_desc):
     if existLien(url) is False:
         addAuteur(authid)
         cursor = conn.cursor()
-        req = "INSERT INTO lien (url, chanName, langue, authid) VALUES (\"{0}\", \"{1}\", \"{2}\", {3})".format(url, chanName, langue, authid)
+        req = "INSERT INTO lien (url, chanName, langue, authid, preview_title, preview_desc) VALUES (\"{0}\", \"{1}\", \"{2}\", {3}, \"{4}\", \"{5}\")".format(url, chanName, langue, authid, preview_title, preview_desc)
         cursor.execute(req)
         conn.commit()
 

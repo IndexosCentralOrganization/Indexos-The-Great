@@ -3,7 +3,7 @@
   "CREATE TABLE IF NOT EXISTS \"auteur\" (\"id\" INTEGER PRIMARY KEY)",
 
   "lien":
-  "CREATE TABLE IF NOT EXISTS \"lien\" (\"URL\" TEXT PRIMARY KEY, \"chanName\" TEXT, \"langue\" TEXT, \"authid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
+  "CREATE TABLE IF NOT EXISTS \"lien\" (\"URL\" TEXT PRIMARY KEY, \"chanName\" TEXT, \"langue\" TEXT, \"authid\" INTEGER, \"preview_title\" TEXT, \"preview_desc\" TEXT, FOREIGN KEY (\"authid\") REFERENCES auteur(id))",
 
   "tag":
   "CREATE TABLE IF NOT EXISTS \"tag\" (\"value\" TEXT PRIMARY KEY, \"description\" TEXT, \"authid\" INTEGER, \"updaterid\" INTEGER, FOREIGN KEY (\"authid\") REFERENCES auteur(id), FOREIGN KEY (\"updaterid\") REFERENCES auteur(id))",
