@@ -29,7 +29,7 @@ class LienCommands(commands.Cog):
             # Cas où ça marche
             title, description = "", ""
             try:
-                ret = web_preview(link, timeout=500)
+                ret = web_preview(link, timeout=10)
                 title, description = ret[0], ret[1]
             except:
                 pass
