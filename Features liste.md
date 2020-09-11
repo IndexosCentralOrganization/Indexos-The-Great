@@ -25,9 +25,9 @@
 
 ## Synonyme
 
-- [ ] Créer un synonyme
-- [ ] Voir les synonymes
-- [ ] Supprimer des synonymes
+- [x] Créer un synonyme
+- [x] Voir les synonymes
+- [x] Supprimer des synonymes
 
 ## Backup
 
