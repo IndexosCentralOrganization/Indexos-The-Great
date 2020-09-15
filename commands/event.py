@@ -22,16 +22,19 @@ class EventsCommands(commands.Cog):
         feb = 2
 
         dateEl = date.split("/")
-        if int(dateEl[0]) < 2000:
-            # DD/MM/YYYY
-            dateY = int(dateEl[2])
-            dateM = int(dateEl[1])
-            dateD = int(dateEl[0])
-        elif int(dateEl[0]) > 2000:
-            # YYYY/MM/DD
-            dateY = int(dateEl[0])
-            dateM = int(dateEl[1])
-            dateD = int(dateEl[2])
+        try:
+            if int(dateEl[0]) < 2000:
+                # DD/MM/YYYY
+                dateY = int(dateEl[2])
+                dateM = int(dateEl[1])
+                dateD = int(dateEl[0])
+            elif int(dateEl[0]) > 2000:
+                # YYYY/MM/DD
+                dateY = int(dateEl[0])
+                dateM = int(dateEl[1])
+                dateD = int(dateEl[2])
+        except ValueError:
+            return self.ERROR_FORMAT_DATE
 
         dateEvent = datetime.datetime(dateY, dateM, dateD)
         if dateEvent >= datetime.datetime.today():
@@ -143,10 +146,87 @@ class EventsCommands(commands.Cog):
                 msg = "L'event existe pas."
         await ctx.channel.send(msg)
 
-
     @commands.command(pass_context=True)
-    async def Esearch(self, ctx, link, date, *tags):
-        pass
+    async def Esearch(self, ctx, *tags):
+        """
+        tags -> tuple avec soit des tag soit sous la forme `lang=??` et `chan=??` la langue ou le channel voulu
+        """
+        lang = ""
+        chan = ""
+        for item in tags:
+            if "lang=" in item:
+                index_item = tags.index(item)
+                lang = tags[index_item].split('=')[1]
+                tags = tags[:index_item] + tags[index_item+1:]
+            elif "chan=" in item:
+                index_item = tags.index(item)
+                chan = tags[index_item].split('=')[1]
+                tags = tags[:index_item] + tags[index_item+1:]
+
+        resLinks = mdb.searchLinkFromTags(tags, lien=False)
+
+        if resLinks:
+            str = "Events correspondants à votre recherche :\n"
+            await ctx.channel.send(str)
+            str = ""
+
+            for link in resLinks:
+                # Tags part
+                dataLink = mdb.simpleItemSearch("tagmap", "lien_url", link[0])
+                tagsList = list()
+
+                for data in dataLink:
+                    tagsList.append(data[2])
+
+                del(dataLink)
+
+                # str += "  **>** "+link[0]+" ["
+
+                # Layout part
+                propertiesLink = mdb.searchLienByPrimKey(link[0])
+                propertiesEvent = mdb.simpleItemSearch("event", "url", link[0])
+                date_str = propertiesEvent[0][2].split(" ")[0]
+                date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+                if date >= datetime.datetime.today():
+
+                    if propertiesLink[0][4]:
+                        titre = propertiesLink[0][4]
+                    else:
+                        titre = "Aller voir..."
+
+                    # str += "\n**DATE**: {}\n\n".format(date_str)
+                    str += "\n**DATE**: {}\n\n".format(date_str)
+                    str += "Channel : {}\n".format(propertiesLink[0][1])
+                    str += "Langue : {}\n".format(propertiesLink[0][2])
+                    str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+
+                    if propertiesLink[0][5]:
+                        str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
+
+                    str += "\n\n**Tags :**\n "
+                    i = 0
+                    for tag in tagsList:
+                        if i:
+                            str += ', '
+                        if tag in tags:
+                            str += "**{0}**".format(tag)
+                        else:
+                            str += "{0}".format(tag)
+                        i += 1
+
+                    str += "\n\n*{}*".format(link[0])
+
+                    msg = discord.Embed(title=titre, color=10151, url=link[0], description=str)
+
+                    await ctx.channel.send(embed=msg)
+                    str = ""
+                else:
+                    str = "*Event déjà passé*"
+                    await ctx.channel.send(str)
+
+        else:
+            str = "Aucun event ne correspond à votre recherche"
+            await ctx.channel.send(str)
 
     @commands.command(pass_context=True)
     async def calendar(self, ctx):

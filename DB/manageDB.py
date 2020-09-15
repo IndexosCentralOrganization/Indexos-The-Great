@@ -327,14 +327,15 @@ def synonymeConvert(old):
         return -1
 
 
-def searchLinkFromTags(tagtuple):
+def searchLinkFromTags(tagtuple, lien=True):
     """
     Recherche les tags du tuple selon les règles boolennes
-    retourne liste lien
+    retourne liste lien sans les liens présent aussi dans la table event
     """
 
     cursor = conn.cursor()
     req = ""
+    # req = ""
     entete = "SELECT lien_url FROM tagmap "
     n = 0
 
@@ -351,6 +352,10 @@ def searchLinkFromTags(tagtuple):
             # On est dans le cas où c'est pas un opérateur
             req += entete
             req += "WHERE tag_value LIKE '{0}'".format(item)
+    if lien:
+        req += "\n EXCEPT \n SELECT url FROM event"
+    else:
+        req += "\n INTERSECT \n SELECT url FROM event"
 
     print(req)
     cursor.execute(req)
