@@ -97,6 +97,21 @@ class EventsCommands(commands.Cog):
 
         await ctx.channel.send(msg)
 
+    @commands.command(pass_context=True)
+    async def Edel(self, ctx, link):
+        pass
+
+    @commands.command(pass_context=True)
+    async def Esearch(self, ctx, link, date, *tags):
+        pass
+
+    @commands.command(pass_context=True)
+    async def calendar(self, ctx):
+        pass
+
+    @commands.command(pass_context=True)
+    async def Emodify(self, ctx, link, date, *tags):
+        pass
 
 
 def setup(bot):
