@@ -256,7 +256,7 @@ def searchTagmapByPrimKey(primkey):
 
 # Commandes sur les events
 def addEvent(url, begin_date, end_date, authid):
-    if existLien(url) is False:
+    if existLien(url) is True and existEvent(url) is False:
         addAuteur(authid)
         cursor = conn.cursor()
         req = "INSERT INTO event (url, begin_date, end_date, authid) VALUES (\"{0}\", \"{1}\", \"{2}\", {3})".format(url, begin_date, end_date, authid)
@@ -269,11 +269,11 @@ def addEvent(url, begin_date, end_date, authid):
 
 
 def deleteEvent(id):
-    return existeItem("event", "id", id)
+    return deleteItem("event", "id", id)
 
 
-def existEvent(id):
-    return existeItem("event", "id", id)
+def existEvent(url):
+    return existeItem("event", "url", url)
 
 
 def allEvent():
