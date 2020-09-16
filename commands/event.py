@@ -4,6 +4,7 @@ from discord.ext import commands
 import discord
 from webpreview import web_preview
 import datetime
+from discord import Color
 
 from commands.lien import LienCommands
 
@@ -230,7 +231,59 @@ class EventsCommands(commands.Cog):
 
     @commands.command(pass_context=True)
     async def calendar(self, ctx):
-        pass
+        today = datetime.datetime.today()
+        allEvent = mdb.allEvent()
+        allEvent.sort(key=lambda x: datetime.datetime.strptime(x[2].split(" ")[0], '%Y-%m-%d'))
+
+        temMonth = datetime.datetime(datetime.MINYEAR, today.month, 1)
+        msg = discord.Embed(title=temMonth.strftime("%m/%Y"), color=Color.gold())
+
+        for event in allEvent:
+            str = ""
+            evMonth = datetime.datetime.strptime(event[2].split(" ")[0], '%Y-%m-%d')
+            if evMonth.month != temMonth.month and evMonth.year != temMonth.year:
+                temMonth = datetime.datetime(evMonth.year, evMonth.month, 1)
+                msg = discord.Embed(title=temMonth.strftime("%m/%Y"), color=Color.gold())
+                await ctx.channel.send(embed=msg)
+            # Layout part
+            propertiesLink = mdb.searchLienByPrimKey(event[1])
+            date_str = event[2].split(" ")[0]
+            date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+            if date >= datetime.datetime.today():
+
+                if propertiesLink[0][4]:
+                    titre = propertiesLink[0][4]
+                else:
+                    titre = "Aller voir..."
+
+                # str += "\n**DATE**: {}\n\n".format(date_str)
+                str += "\n**DATE**: {}\n\n".format(date_str)
+                str += "Channel : {}\n".format(propertiesLink[0][1])
+                str += "Langue : {}\n".format(propertiesLink[0][2])
+                str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+
+                if propertiesLink[0][5]:
+                    str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
+
+                # str += "\n\n**Tags :**\n "
+                # i = 0
+                # for tag in tagsList:
+                #     if i:
+                #         str += ', '
+                #     if tag in tags:
+                #         str += "**{0}**".format(tag)
+                #     else:
+                #         str += "{0}".format(tag)
+                #     i += 1
+
+                str += "\n\n*{}*".format(event[1])
+
+                msg = discord.Embed(title=titre, color=Color.dark_gold(), url=event[1], description=str)
+
+                await ctx.channel.send(embed=msg)
+                str = ""
+
+
 
     @commands.command(pass_context=True)
     async def Emodify(self, ctx, link, date, *tags):
