@@ -284,11 +284,5 @@ class EventsCommands(commands.Cog):
                 str = ""
 
 
-
-    @commands.command(pass_context=True)
-    async def Emodify(self, ctx, link, date, *tags):
-        pass
-
-
 def setup(bot):
     bot.add_cog(EventsCommands(bot))
