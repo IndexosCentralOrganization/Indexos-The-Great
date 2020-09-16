@@ -1,31 +1,66 @@
-***Commandes disponibles :***
-
-**Ladd :** `Ladd LIEN optTAG1 OPTtag2 OPTtag3`
- Permet d'ajouter un lien avec 0, 1, 2 ou 3 tags. Si un des des tags est figure à gauche dans la table synonyme alors il sera remplacé automatiquement.
+**Ladd :** `Ladd LIEN optTAGS`
+ Permet d'ajouter un lien avec ou sans tags.
 
 **Ldel :** `Ldel LIEN`
  Permet de supprimer un lien SI ON EST L'AUTEUR DE SON AJOUT.
 
-**Lsearch :** `Lsearch ITEM`
- Permet de rechercher un lien dont soit un des tags est ITEM ou dont le salon d'origine a pour nom ITEM.
+**Lsearch :** `Lsearch TAGS`
+ Permet de rechercher un lien (et non un event) en fonction de ses tags.
  BETA Possibilité d'utiliser :
- - && pour AND
- - || pour OR
- - ^ pour XOR
- - ! pour NOT
+ - and pour AND
+ - or pour OR
+ - not pour NOT
+ - Le XOR n'est pas géré.
 **NE PAS COLLER LES OPÉRATEURS AUX TAGS**
 
-**toptag :** `toptag OPTx`
+**Lmodify :** `Lmodify LIEN ARG TAG`
+Permet de modifier les tags associés à un lien.
+LIEN est l'url du lien a modifier.
+ARG peut avoir deux valeurs : "del" ou "add".
+TAG est le tag a ajouter/supprimer au lien.
+
+**toptag :** `toptag optX`
  Affiche les x tags les plus utilisés, 10 par défaut. Si vous cherchez au dela de 10 la réponse sera envoyée par MP
 
 **DBdump :** `DBdump`
  Envoie en MP le fichier dump de la base de donnée
 
 **merge :** `merge tag1 tag2`
- Fusionne tous les tag1 avec les les tag2, ajoute une ligne à la table des synonymes sous la forme `tag1 -> tag2`
+ Fusionne tous les tag1 avec les les tag2, ajoute une ligne à la table des synonymes sous la forme *tag1 -> tag2*.
 
- **syndel :** `syndel old`
+ **syndel :** `delSyn old`
  Supprime le synonyme avec old à gauche.
 
- **synlist :** `synlist`
+ **synlist :** `listSyn`
  Affiche la liste des synonymes
+
+**Eadd :** `Eadd LIEN DATE optTAGS`
+Permet d'ajouter un nouvel event.
+LIEN est l'url de l'event
+DATE soit sous la forme "DD/MM/YYYY" soit "YYYY/MM/DD" est le jour où aura lieu l'évènement.
+TAGS est la liste de tags avec lesquels l'event sera référencé.
+
+**Edel :** `Edel LIEN`
+Permet de supprimer un event SI ON EST L'AUTEUR
+LIEN est le lien de l'event a supprimer.
+
+**Esearch :** `Esearch TAGS`
+ Permet de rechercher un event (et non un lien) en fonction de ses tags.
+ BETA Possibilité d'utiliser :
+ - and pour AND
+ - or pour OR
+ - not pour NOT
+ - Le XOR n'est pas géré.
+**NE PAS COLLER LES OPÉRATEURS AUX TAGS**
+
+**calendar :** `calendar`
+Permet d'afficher les prochains events mois après mois.
+
+**infotag :** `infotag TAG`
+Permet d'afficher les information à propos d'un tag.
+TAG est le tag a propos duquel on veut des info
+
+**desctag :** `desctag TAG DESC`
+Permet de modifier la description déjà existante d'un tag.
+TAG est le tag auquel on veut changer la description
+DESC soit entre quote, soit non est la nouvelle description du tag.
