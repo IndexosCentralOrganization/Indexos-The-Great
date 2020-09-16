@@ -110,6 +110,7 @@ client.load_extension('commands.lien')
 client.load_extension('commands.synonyme')
 client.load_extension('commands.tag')
 client.load_extension('commands.event')
+client.load_extension('commands.misc')
 client.load_extension('help.help')
 
 try:
