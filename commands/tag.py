@@ -73,7 +73,6 @@ class tagCommands(commands.Cog):
             msg = "Il n'y a pas de description sur ce tag ! Ecrivez-en une !"
             await ctx.channel.send(msg)
 
-
     @commands.command(pass_context=True)
     async def desctag(self, ctx, tag, *desc):
         str = ""

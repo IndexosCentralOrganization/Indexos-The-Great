@@ -255,8 +255,8 @@ def searchTagmapByPrimKey(primkey):
 
 
 # Commandes sur les events
-def addEvent(id, url, begin_date, end_date, authid):
-    if existEvent(id) is False and existLien(url):
+def addEvent(url, begin_date, end_date, authid):
+    if existLien(url) is True and existEvent(url) is False:
         addAuteur(authid)
         cursor = conn.cursor()
         req = "INSERT INTO event (url, begin_date, end_date, authid) VALUES (\"{0}\", \"{1}\", \"{2}\", {3})".format(url, begin_date, end_date, authid)
@@ -272,8 +272,8 @@ def deleteEvent(id):
     return deleteItem("event", "id", id)
 
 
-def existEvent(id):
-    return existeItem("event", "id", id)
+def existEvent(url):
+    return existeItem("event", "url", url)
 
 
 def allEvent():
@@ -327,14 +327,15 @@ def synonymeConvert(old):
         return -1
 
 
-def searchLinkFromTags(tagtuple):
+def searchLinkFromTags(tagtuple, lien=True):
     """
     Recherche les tags du tuple selon les règles boolennes
-    retourne liste lien
+    retourne liste lien sans les liens présent aussi dans la table event
     """
 
     cursor = conn.cursor()
     req = ""
+    # req = ""
     entete = "SELECT lien_url FROM tagmap "
     n = 0
 
@@ -351,6 +352,10 @@ def searchLinkFromTags(tagtuple):
             # On est dans le cas où c'est pas un opérateur
             req += entete
             req += "WHERE tag_value LIKE '{0}'".format(item)
+    if lien:
+        req += "\n EXCEPT \n SELECT url FROM event"
+    else:
+        req += "\n INTERSECT \n SELECT url FROM event"
 
     print(req)
     cursor.execute(req)
