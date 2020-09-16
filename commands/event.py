@@ -6,8 +6,6 @@ from webpreview import web_preview
 import datetime
 from discord import Color
 
-from commands.lien import LienCommands
-
 
 class EventsCommands(commands.Cog):
     """docstring for EventsCommands."""
