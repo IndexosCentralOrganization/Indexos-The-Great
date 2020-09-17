@@ -50,7 +50,6 @@ LIEN est le lien de l'event a supprimer.
  - and pour AND
  - or pour OR
  - not pour NOT
- - Le XOR n'est pas géré.
 **NE PAS COLLER LES OPÉRATEURS AUX TAGS**
 
 **calendar :** `calendar`
@@ -58,9 +57,7 @@ Permet d'afficher les prochains events mois après mois.
 
 **infotag :** `infotag TAG`
 Permet d'afficher les information à propos d'un tag.
-TAG est le tag a propos duquel on veut des info
 
 **desctag :** `desctag TAG DESC`
 Permet de modifier la description déjà existante d'un tag.
-TAG est le tag auquel on veut changer la description
 DESC soit entre quote, soit non est la nouvelle description du tag.
