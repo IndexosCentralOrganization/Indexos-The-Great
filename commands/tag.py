@@ -78,7 +78,7 @@ class tagCommands(commands.Cog):
         str = ""
         if mdb.searchTagByPrimKey(tag)[0][2] == ctx.author.id:
             for item in desc:
-                str += " {0}".foramt(item)
+                str += " {0}".format(item)
             mdb.updateItem("tag", "value", tag, "description", str.replace("'", " "))
             mdb.updateItem("tag", "value", tag, "updaterid", ctx.author.id)
             msg = "Changement effectué avec succès !"
