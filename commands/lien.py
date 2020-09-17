@@ -28,11 +28,14 @@ class LienCommands(commands.Cog):
         if val.url(link):
             # Cas où ça marche
             title, description = "", ""
-            try:
-                ret = web_preview(link, timeout=10)
-                title, description = ret[0], ret[1]
-            except:
-                pass
+            if ".pdf" not in link:
+                try:
+                    ret = web_preview(link, timeout=1)
+                    title, description = ret[0], ret[1]
+                    if description:
+                        description = description.replace("\"", "'")
+                except:
+                    title, description = "Fichier PDF", "Fichier PDF a télécharger."
 
             lienAjoute = mdb.addLien(link, chanName, "??", authID, title, description)
             if tags:
