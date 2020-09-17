@@ -113,9 +113,22 @@ class LienCommands(commands.Cog):
                 except IndexError:
                     titre = "Aller voir..."
 
-                str += "Channel : {}\n".format(propertiesLink[0][1])
-                str += "Langue : {}\n".format(propertiesLink[0][2])
-                str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+                try:
+                    str += "Channel : {}\n".format(propertiesLink[0][1])
+                except IndexError:
+                    str += "Channel : ??\n"
+
+                try:
+                    str += "Langue : {}\n".format(propertiesLink[0][2])
+                except IndexError:
+                    str += "Langue : ??\n"
+
+                try:
+                    str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+                except IndexError:
+                    str += "Auteur : ??\n"
+
+
 
                 if propertiesLink[0][5]:
                     str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
