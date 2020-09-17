@@ -92,8 +92,11 @@ class LienCommands(commands.Cog):
             str = "Liens correspondants à votre recherche :\n"
             await ctx.channel.send(str)
             str = ""
+            n = 0
+            tot = len(resLinks)
 
             for link in resLinks:
+                n += 1
                 # Tags part
                 dataLink = mdb.simpleItemSearch("tagmap", "lien_url", link[0])
                 tagsList = list()
@@ -146,7 +149,9 @@ class LienCommands(commands.Cog):
 
                 str += "\n\n*{}*".format(link[0])
 
-                msg = discord.Embed(title=titre, color=71013, url=link[0], description=str)
+                titre_num = "{0}/{1}| {2}".format(n, tot, titre)
+
+                msg = discord.Embed(title=titre_num, color=71013, url=link[0], description=str)
 
                 await ctx.channel.send(embed=msg)
                 str = ""
