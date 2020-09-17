@@ -132,10 +132,12 @@ class LienCommands(commands.Cog):
                     str += "Auteur : ??\n"
 
 
-
-                if propertiesLink[0][5]:
-                    str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
-
+                try:
+                    if propertiesLink[0][5]:
+                        str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
+                except IndexError:
+                    pass
+                    
                 str += "\n\n**Tags :**\n "
                 i = 0
                 for tag in tagsList:
