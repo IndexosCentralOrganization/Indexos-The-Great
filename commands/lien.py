@@ -105,10 +105,12 @@ class LienCommands(commands.Cog):
 
                 # Layout part
                 propertiesLink = mdb.searchLienByPrimKey(link[0])
-
-                if propertiesLink[0][4]:
-                    titre = propertiesLink[0][4]
-                else:
+                try:
+                    if propertiesLink[0][4]:
+                        titre = propertiesLink[0][4]
+                    else:
+                        titre = "Aller voir..."
+                except IndexError:
                     titre = "Aller voir..."
 
                 str += "Channel : {}\n".format(propertiesLink[0][1])
