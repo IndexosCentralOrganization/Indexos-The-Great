@@ -24,7 +24,7 @@ class synonymeCommands(commands.Cog):
                 else:
                     msg = "Ce synonyme existe déjà."
             else:
-                msg = "Vous n'êtes pas l'auteur du tag a supprimer, contacter <@{}>".format(tag)
+                msg = "Vous n'êtes pas l'auteur du tag a supprimer, contacter <@{}>".format(tag[0][2])
         else:
             msg = "Erreur dans les tags. Au moins l'un des deux n'existe pas."
         await ctx.channel.send(msg)
