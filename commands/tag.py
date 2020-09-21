@@ -76,14 +76,16 @@ class tagCommands(commands.Cog):
     @commands.command(pass_context=True)
     async def desctag(self, ctx, tag, *desc):
         str = ""
-        if mdb.searchTagByPrimKey(tag)[0][2] == ctx.author.id:
-            for item in desc:
-                str += " {0}".format(item)
-            mdb.updateItem("tag", "value", tag, "description", str.replace("'", " "))
-            mdb.updateItem("tag", "value", tag, "updaterid", ctx.author.id)
-            msg = "Changement effectué avec succès !"
-        else:
-            msg = "Vous ne pouvez pas modifier ce tag ! Seul <@{0}> le peut !".format(mdb.searchTagByPrimKey(tag)[0][2])
+        # if mdb.searchTagByPrimKey(tag)[0][2] != ctx.author.id:
+        #     aut = discord.User()
+        #     aut.id = mdb.searchTagByPrimKey(tag)[0][2]
+        #     aut.send("La description de {} a été modifée et vous est envoyée à des fins de sauvegarde".format(tag))
+        #     msg = discord.Embed(title=tag, color=35723, description=desc_)
+        for item in desc:
+            str += " {0}".format(item)
+        mdb.updateItem("tag", "value", tag, "description", str.replace("'", " "))
+        mdb.updateItem("tag", "value", tag, "updaterid", ctx.author.id)
+        msg = "Changement effectué avec succès !"
         await ctx.channel.send(msg)
 
 
