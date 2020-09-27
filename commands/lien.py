@@ -35,7 +35,9 @@ class LienCommands(commands.Cog):
                     if description:
                         description = description.replace("\"", "'")
                 except:
-                    title, description = "Fichier PDF", "Fichier PDF a télécharger."
+                    pass
+            else:
+                title, description = link.split("/")[len(link.split("/"))-1], "Fichier PDF a télécharger."
 
             lienAjoute = mdb.addLien(link, chanName, "??", authID, title, description)
             if tags:
@@ -77,12 +79,16 @@ class LienCommands(commands.Cog):
         lang = ""
         chan = ""
         for item in tags:
+            tag_tmp = mdb.searchSynonymeByPrimKey(item)
+            index_item = tags.index(item)
+
+            if tag_tmp:
+                item = tag_tmp[0][2]
+                tags = tags[:index_item] + (item,) + tags[index_item + 1:]
             if "lang=" in item:
-                index_item = tags.index(item)
                 lang = tags[index_item].split('=')[1]
                 tags = tags[:index_item] + tags[index_item+1:]
             elif "chan=" in item:
-                index_item = tags.index(item)
                 chan = tags[index_item].split('=')[1]
                 tags = tags[:index_item] + tags[index_item+1:]
 
@@ -137,7 +143,7 @@ class LienCommands(commands.Cog):
                         str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
                 except IndexError:
                     pass
-                    
+
                 str += "\n\n**Tags :**\n "
                 i = 0
                 for tag in tagsList:
