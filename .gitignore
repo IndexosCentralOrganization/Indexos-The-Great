@@ -133,3 +133,4 @@ token/token.txt
 
 *.db
 help/cogs.txt
+.idea/
