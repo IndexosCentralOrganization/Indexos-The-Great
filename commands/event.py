@@ -239,7 +239,7 @@ class EventsCommands(commands.Cog):
         for event in allEvent:
             str = ""
             evMonth = datetime.datetime.strptime(event[2].split(" ")[0], '%Y-%m-%d')
-            if evMonth.month != temMonth.month and evMonth.year != temMonth.year:
+            if evMonth.month != temMonth.month:
                 temMonth = datetime.datetime(evMonth.year, evMonth.month, 1)
                 msg = discord.Embed(title=temMonth.strftime("%m/%Y"), color=Color.gold())
                 await ctx.channel.send(embed=msg)
