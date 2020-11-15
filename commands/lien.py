@@ -85,12 +85,6 @@ class LienCommands(commands.Cog):
             if tag_tmp:
                 item = tag_tmp[0][2]
                 tags = tags[:index_item] + (item,) + tags[index_item + 1:]
-            if "lang=" in item:
-                lang = tags[index_item].split('=')[1]
-                tags = tags[:index_item] + tags[index_item+1:]
-            elif "chan=" in item:
-                chan = tags[index_item].split('=')[1]
-                tags = tags[:index_item] + tags[index_item+1:]
 
         resLinks = mdb.searchLinkFromTags(tags)
 
@@ -141,6 +135,7 @@ class LienCommands(commands.Cog):
                 try:
                     if propertiesLink[0][5]:
                         str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
+                        print(len(str))
                 except IndexError:
                     pass
 
