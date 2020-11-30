@@ -153,7 +153,7 @@ class LienCommands(commands.Cog):
 
                 titre_num = "{0}/{1}| {2}".format(n, tot, titre)
 
-                msg = discord.Embed(title=titre_num[:255], color=71013, url=link[0], description=str[:255])
+                msg = discord.Embed(title=titre_num[:255], color=71013, url=link[0], description=str[:2048])
 
                 await ctx.channel.send(embed=msg)
                 str = ""
