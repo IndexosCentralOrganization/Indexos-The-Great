@@ -128,9 +128,9 @@ class LienCommands(commands.Cog):
                 #     str += "Langue : ??\n"
                 #
                 try:
-                    str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+                    str += "Indexeur : <@{}>\n".format(propertiesLink[0][3])
                 except IndexError:
-                    str += "Auteur : ??\n"
+                    str += "Indexeur : ??\n"
 
 
                 try:
@@ -199,7 +199,7 @@ class LienCommands(commands.Cog):
                 await ctx.channel.send("Veuillez préciser `add` ou `del`.")
 
         else:
-            await ctx.channel.send("Vous devez être l'auteur du lien pour le modifier. Son auteur est : <@{0}>".format(mdb.searchLienByPrimKey(link)[0][3]))
+            await ctx.channel.send("Vous devez être l'indexeur du lien pour le modifier. Son indexeur est : <@{0}>".format(mdb.searchLienByPrimKey(link)[0][3]))
 
 
 def setup(bot):

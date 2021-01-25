@@ -24,7 +24,7 @@ class synonymeCommands(commands.Cog):
                 else:
                     msg = "Ce synonyme existe déjà."
             else:
-                msg = "Vous n'êtes pas l'auteur du tag a supprimer, contacter <@{}>".format(tag[0][2])
+                msg = "Vous n'êtes pas l'indexeur du tag a supprimer, contacter <@{}>".format(tag[0][2])
         else:
             msg = "Erreur dans les tags. Au moins l'un des deux n'existe pas."
         await ctx.channel.send(msg)
@@ -51,7 +51,7 @@ class synonymeCommands(commands.Cog):
             mdb.deleteSynonyme(old)
             msg = "Synonyme supprimé"
         else:
-            msg = "Ce synonyme n'existe pas ou vous n'êtes pas son auteur."
+            msg = "Ce synonyme n'existe pas ou vous n'êtes pas son indexeur."
         await ctx.channel.send(msg)
 
 

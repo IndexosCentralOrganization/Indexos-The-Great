@@ -137,7 +137,7 @@ class EventsCommands(commands.Cog):
                     mdb.deleteTagmap(id_tm[0])
                 msg = "Event supprimé"
             else:
-                msg = "Vous n'êtes pas l'auteur de cet Event, veuillez contacter <@{}>".format(mdb.searchLienByPrimKey(link)[0][3])
+                msg = "Vous n'êtes pas l'Indexeur de cet Event, veuillez contacter <@{}>".format(mdb.searchLienByPrimKey(link)[0][3])
         else:
             if mdb.existLien(link):
                 msg = "Le lien n'est pas un event."
@@ -195,9 +195,9 @@ class EventsCommands(commands.Cog):
 
                     # str += "\n**DATE**: {}\n\n".format(date_str)
                     str += "\n**DATE**: {}\n\n".format(date_str)
-                    str += "Channel : {}\n".format(propertiesLink[0][1])
-                    str += "Langue : {}\n".format(propertiesLink[0][2])
-                    str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+                    # str += "Channel : {}\n".format(propertiesLink[0][1])
+                    # str += "Langue : {}\n".format(propertiesLink[0][2])
+                    str += "Indexeur : <@{}>\n".format(propertiesLink[0][3])
 
                     if propertiesLink[0][5]:
                         str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
@@ -257,9 +257,9 @@ class EventsCommands(commands.Cog):
 
                 # str += "\n**DATE**: {}\n\n".format(date_str)
                 str += "\n**DATE**: {}\n\n".format(date_str)
-                str += "Channel : {}\n".format(propertiesLink[0][1])
-                str += "Langue : {}\n".format(propertiesLink[0][2])
-                str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+                # str += "Channel : {}\n".format(propertiesLink[0][1])
+                # str += "Langue : {}\n".format(propertiesLink[0][2])
+                str += "Indexeur : <@{}>\n".format(propertiesLink[0][3])
 
                 if propertiesLink[0][5]:
                     str += "\n\n**DESCRIPTION :**\n" + propertiesLink[0][5]
