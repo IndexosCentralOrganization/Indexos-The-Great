@@ -71,6 +71,7 @@ class LienCommands(commands.Cog):
         else:
             await ctx.channel.send("Le lien n'a pas pu être supprimé")
 
+
     @commands.command(pass_context=True)
     async def Lsearch(self, ctx, *tags):
         """
@@ -126,10 +127,10 @@ class LienCommands(commands.Cog):
                 # except IndexError:
                 #     str += "Langue : ??\n"
                 #
-                # try:
-                #     str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
-                # except IndexError:
-                #     str += "Auteur : ??\n"
+                try:
+                    str += "Auteur : <@{}>\n".format(propertiesLink[0][3])
+                except IndexError:
+                    str += "Auteur : ??\n"
 
 
                 try:

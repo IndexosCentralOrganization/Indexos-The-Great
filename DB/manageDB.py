@@ -342,11 +342,11 @@ def searchLinkFromTags(tagtuple, lien=True):
     # Lsearch gris or blanc and markdown
 
     for item in tagtuple:
-        if item == "and":
+        if item == "and" or item == "AND":
             req += "\n INTERSECT \n"
-        elif item == "or":
+        elif item == "or" or item == "OR":
             req += "\n UNION \n"
-        elif item == "not":
+        elif item == "not" or item == "NOT":
             req += "\n EXCEPT \n"
         else:
             # On est dans le cas où c'est pas un opérateur
