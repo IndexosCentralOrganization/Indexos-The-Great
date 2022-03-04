@@ -1,0 +1,16 @@
+version: "3.0"
+services:
+  bot:
+    container_name: indexos-bot-container
+    environment:
+      PYTHONUNBUFFERED: 1
+    build:
+      context: .
+    ports:
+      - 80:80
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge
