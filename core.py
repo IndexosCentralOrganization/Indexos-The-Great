@@ -8,17 +8,17 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from Crypto.Cipher import AES
 import subprocess
 import json
-
+import os
 
 # initialisation des variables.
+path = os.path.realpath(__file__).replace('core.py', "")
 DEFAUT_PREFIX = "!"
-
-VERSION = open("core/version.txt").read().replace("\n", "")
-TOKEN = open("token/token.txt", "r").read().replace("\n", "")
-PREFIX = open("core/prefix.txt", "r").read().replace("\n", "")
+VERSION = open(path+"core/version.txt").read().replace("\n", "")
+TOKEN = open(path+"token/token.txt", "r").read().replace("\n", "")
+PREFIX = open(path+"core/prefix.txt", "r").read().replace("\n", "")
 client = commands.Bot(command_prefix="{0}".format(PREFIX))
-NONE = open("help/cogs.txt", "w")
-NONE = open("help/help.txt", "w")
+NONE = open(path+"help/cogs.txt", "w")
+NONE = open(path+"help/help.txt", "w")
 
 client.remove_command("help")
 

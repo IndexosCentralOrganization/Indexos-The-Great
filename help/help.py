@@ -1,7 +1,10 @@
 import discord
 from discord.ext import commands
 from discord import Color
+import os
 
+path = os.path.realpath(__file__).replace('help.py', "")
+print(path)
 
 class Helpme(commands.Cog):
 

@@ -1,11 +1,13 @@
 import sqlite3 as sql
 import json
+import os
 
-conn = sql.connect('DB/dataBase.db')
+path = os.path.realpath(__file__).replace(__name__.split('.')[1]+'.py', "")
+conn = sql.connect(path+'/dataBase.db')
 
 
 def initDB():
-    with open('DB/create_intruct.json') as json_file:
+    with open(path+'/create_intruct.json') as json_file:
         cr_in = json.load(json_file)
     for i in cr_in:
         cursor = conn.cursor()
@@ -20,7 +22,7 @@ def dumpAllDB():
     """
     Dump toute la base de donnée dans dump.sql
     """
-    name = 'dump.sql'
+    name = path+'/dump.sql'
     with open(name, 'w') as f:
         for line in conn.iterdump():
             f.write('%s\n' % line)
