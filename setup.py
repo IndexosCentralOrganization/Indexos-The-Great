@@ -9,7 +9,7 @@ setup(
         'webpreview==1.6.0',
         'APScheduler==3.6.3',
         'discord==1.0.1',
-        'pycryptodome==3.9.8',
+        'pycryptodome==3.19.1',
     ],
     py_modules=[
         'core',
